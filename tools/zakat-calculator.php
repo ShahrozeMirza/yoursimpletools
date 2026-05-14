@@ -1,6 +1,23 @@
 <?php include '../includes/head.php'; ?>
 <title>Zakat Calculator - Calculate Your Zakat | YourSimpleTools</title>
 <meta name="description" content="Calculate your annual Zakat obligation accurately. Supports multiple currencies and all asset types. Free Islamic Zakat calculator." />
+<style>
+  /* Problem 2 - align grid items to top so fields line up when labels wrap */
+  .form-grid-2 {
+    align-items: start;
+  }
+
+  /* Problem 3 - section title bottom spacing */
+  .calc-section-title {
+    margin-bottom: 1rem;
+  }
+
+  /* Problem 4 - breathing room on helper text below price inputs */
+  .form-group .auto-display {
+    margin-top: 6px;
+    margin-bottom: 12px;
+  }
+</style>
 <?php include '../includes/nav.php'; ?>
 
     <main>
@@ -102,7 +119,7 @@
                       type="number"
                       id="gold-price"
                       class="form-input"
-                      placeholder="0.00"
+                      placeholder="0"
                       min="0"
                       step="any"
                     />
@@ -124,7 +141,7 @@
                       type="number"
                       id="silver-price"
                       class="form-input"
-                      placeholder="0.00"
+                      placeholder="0"
                       min="0"
                       step="any"
                     />
@@ -218,7 +235,7 @@
                     type="number"
                     id="cash-hand"
                     class="form-input"
-                    placeholder="0.00"
+                    placeholder="0"
                     min="0"
                     step="any"
                   />
@@ -231,7 +248,7 @@
                     type="number"
                     id="bank-balance"
                     class="form-input"
-                    placeholder="0.00"
+                    placeholder="0"
                     min="0"
                     step="any"
                   />
@@ -244,7 +261,7 @@
                     type="number"
                     id="fixed-deposits"
                     class="form-input"
-                    placeholder="0.00"
+                    placeholder="0"
                     min="0"
                     step="any"
                   />
@@ -257,7 +274,7 @@
                     type="number"
                     id="foreign-currency"
                     class="form-input"
-                    placeholder="0.00"
+                    placeholder="0"
                     min="0"
                     step="any"
                   />
@@ -280,7 +297,7 @@
                     type="number"
                     id="business-inventory"
                     class="form-input"
-                    placeholder="0.00"
+                    placeholder="0"
                     min="0"
                     step="any"
                   />
@@ -293,7 +310,7 @@
                     type="number"
                     id="receivables"
                     class="form-input"
-                    placeholder="0.00"
+                    placeholder="0"
                     min="0"
                     step="any"
                   />
@@ -306,7 +323,7 @@
                     type="number"
                     id="shares"
                     class="form-input"
-                    placeholder="0.00"
+                    placeholder="0"
                     min="0"
                     step="any"
                   />
@@ -319,7 +336,7 @@
                     type="number"
                     id="mutual-funds"
                     class="form-input"
-                    placeholder="0.00"
+                    placeholder="0"
                     min="0"
                     step="any"
                   />
@@ -332,7 +349,7 @@
                     type="number"
                     id="crypto"
                     class="form-input"
-                    placeholder="0.00"
+                    placeholder="0"
                     min="0"
                     step="any"
                   />
@@ -345,7 +362,7 @@
                     type="number"
                     id="other-business"
                     class="form-input"
-                    placeholder="0.00"
+                    placeholder="0"
                     min="0"
                     step="any"
                   />
@@ -372,7 +389,7 @@
                     type="number"
                     id="investment-property"
                     class="form-input"
-                    placeholder="0.00"
+                    placeholder="0"
                     min="0"
                     step="any"
                   />
@@ -385,7 +402,7 @@
                     type="number"
                     id="rental-income"
                     class="form-input"
-                    placeholder="0.00"
+                    placeholder="0"
                     min="0"
                     step="any"
                   />
@@ -398,7 +415,7 @@
                     type="number"
                     id="other-investments"
                     class="form-input"
-                    placeholder="0.00"
+                    placeholder="0"
                     min="0"
                     step="any"
                   />
@@ -424,7 +441,7 @@
                     type="number"
                     id="personal-loans"
                     class="form-input"
-                    placeholder="0.00"
+                    placeholder="0"
                     min="0"
                     step="any"
                   />
@@ -437,7 +454,7 @@
                     type="number"
                     id="business-debts"
                     class="form-input"
-                    placeholder="0.00"
+                    placeholder="0"
                     min="0"
                     step="any"
                   />
@@ -450,7 +467,7 @@
                     type="number"
                     id="other-liabilities"
                     class="form-input"
-                    placeholder="0.00"
+                    placeholder="0"
                     min="0"
                     step="any"
                   />
