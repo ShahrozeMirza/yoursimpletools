@@ -1324,42 +1324,34 @@ textarea {
   flex-shrink: 0;
 }
 
-.btn-icon {
+.btn-sm {
   background: var(--color-card);
-  border: 0.0625rem solid var(--color-border);
-  border-radius: var(--border-radius-btn);
-  min-width: 2.25rem;
-  height: 2.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
   color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--border-radius-btn);
+  border: 0.0625rem solid var(--color-border);
+  cursor: pointer;
   font-family: var(--font-family-base);
-  font-size: var(--font-size-small);
-  transition: all var(--transition-base);
+  transition:
+    border-color var(--transition-base),
+    color var(--transition-base),
+    background-color var(--transition-base);
+  white-space: nowrap;
   flex-shrink: 0;
-  padding: 0 0.5rem;
+  line-height: 1.2;
 }
 
-.btn-icon:hover {
+.btn-sm:hover {
   border-color: var(--color-accent);
   color: var(--color-accent);
 }
 
-.btn-icon svg {
-  width: 1rem;
-  height: 1rem;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 2;
-}
-
-.copied-text {
-  font-size: var(--font-size-small);
-  font-weight: 500;
+.btn-sm.is-copied {
+  border-color: var(--color-accent);
   color: var(--color-accent);
-  white-space: nowrap;
+  background: var(--color-accent-light);
 }
 
 /* =============================================
@@ -1422,19 +1414,28 @@ textarea {
 .toggle-list {
   display: flex;
   flex-direction: column;
+  border: 0.0625rem solid var(--color-border);
+  border-radius: var(--border-radius-btn);
+  overflow: hidden;
 }
 
 .toggle-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.625rem 0;
+  padding: 0.75rem 1rem;
   border-bottom: 0.0625rem solid var(--color-border);
   gap: 1rem;
+  background: var(--color-card);
+  transition: background-color var(--transition-base);
 }
 
 .toggle-row:last-child {
   border-bottom: none;
+}
+
+.toggle-row:hover {
+  background: var(--color-bg);
 }
 
 .toggle-label {
@@ -1442,13 +1443,14 @@ textarea {
   color: var(--color-text-primary);
   font-weight: 500;
   cursor: pointer;
+  user-select: none;
 }
 
 .toggle-switch {
   position: relative;
   display: inline-block;
-  width: 2.5rem;
-  height: 1.375rem;
+  width: 2.75rem;
+  height: 1.5rem;
   flex-shrink: 0;
 }
 
@@ -1467,21 +1469,21 @@ textarea {
   right: 0;
   bottom: 0;
   background: #d1d5db;
-  border-radius: 1.375rem;
-  transition: background-color var(--transition-base);
+  border-radius: 1.5rem;
+  transition: background-color 0.2s ease;
 }
 
 .toggle-slider::before {
   position: absolute;
   content: "";
-  height: 1rem;
-  width: 1rem;
+  height: 1.125rem;
+  width: 1.125rem;
   left: 0.1875rem;
-  bottom: 0.1875rem;
+  top: 0.1875rem;
   background: #ffffff;
   border-radius: 50%;
-  transition: transform var(--transition-base);
-  box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+  box-shadow: 0 0.0625rem 0.25rem rgba(0, 0, 0, 0.18);
 }
 
 .toggle-switch input:checked + .toggle-slider {
@@ -1489,12 +1491,11 @@ textarea {
 }
 
 .toggle-switch input:checked + .toggle-slider::before {
-  transform: translateX(1.125rem);
+  transform: translateX(1.25rem);
 }
 
 .toggle-switch input:focus-visible + .toggle-slider {
-  outline: 0.125rem solid var(--color-accent);
-  outline-offset: 0.125rem;
+  box-shadow: 0 0 0 0.1875rem var(--color-focus-ring);
 }
 
 /* =============================================
