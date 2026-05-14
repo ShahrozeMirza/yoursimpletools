@@ -20,15 +20,14 @@ jobs:
 
       - name: Add Hostinger to known hosts
         run: |
-          ssh-keyscan -p ${{ secrets.SSH_PORT }} \
-          ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p 65002 145.79.25.59 >> ~/.ssh/known_hosts
 
       - name: Deploy via Rsync
         run: |
           rsync -avz --delete \
-          -e "ssh -p ${{ secrets.SSH_PORT }}" \
+          -e "ssh -p 65002" \
           ./ \
-          ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USERNAME }}/public_html/ \
+          u728134842@145.79.25.59:/home/u728134842/public_html/ \
           --exclude='.git' \
           --exclude='.github' \
           --exclude='*.md' \
