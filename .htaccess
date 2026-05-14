@@ -1,18 +1,18 @@
 Options -Indexes
-
-# Remove .html extension
 RewriteEngine On
 
-# If the request is not for a real file or directory
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+# Redirect index.html to root
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/
+RewriteRule ^index\.html$ / [R=301,L]
 
-# Redirect /page to /page.html internally
-RewriteRule ^([^\.]+)$ $1.html [NC,L]
-
-# Remove .html from URL
+# Remove .html extension from URLs
 RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
 RewriteRule ^ /%1 [NC,R=301,L]
 
-# Handle index.html as root
+# Serve .html files for clean URLs
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+)$ $1.html [L]
+
 DirectoryIndex index.html
