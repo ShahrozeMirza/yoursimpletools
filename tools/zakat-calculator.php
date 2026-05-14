@@ -95,37 +95,55 @@
               <div class="form-grid-2">
                 <div class="form-group">
                   <label class="form-label" for="gold-price">
-                    Gold price per gram (<span class="cur-sym">PKR</span>)
+                    Gold price (<span class="cur-sym">PKR</span>)
                   </label>
-                  <input
-                    type="number"
-                    id="gold-price"
-                    class="form-input"
-                    placeholder="0.00"
-                    min="0"
-                    step="any"
-                  />
+                  <div class="input-with-unit">
+                    <input
+                      type="number"
+                      id="gold-price"
+                      class="form-input"
+                      placeholder="0.00"
+                      min="0"
+                      step="any"
+                    />
+                    <select id="gold-price-unit" class="form-select">
+                      <option value="tola" selected>Per Tola</option>
+                      <option value="grams">Per Gram</option>
+                    </select>
+                  </div>
+                  <div class="auto-display" id="gold-price-helper">
+                    = <span class="cur-sym">PKR</span>0.00 per gram
+                  </div>
                 </div>
                 <div class="form-group">
                   <label class="form-label" for="silver-price">
-                    Silver price per gram (<span class="cur-sym">PKR</span>)
+                    Silver price (<span class="cur-sym">PKR</span>)
                   </label>
-                  <input
-                    type="number"
-                    id="silver-price"
-                    class="form-input"
-                    placeholder="0.00"
-                    min="0"
-                    step="any"
-                  />
+                  <div class="input-with-unit">
+                    <input
+                      type="number"
+                      id="silver-price"
+                      class="form-input"
+                      placeholder="0.00"
+                      min="0"
+                      step="any"
+                    />
+                    <select id="silver-price-unit" class="form-select">
+                      <option value="tola" selected>Per Tola</option>
+                      <option value="grams">Per Gram</option>
+                    </select>
+                  </div>
+                  <div class="auto-display" id="silver-price-helper">
+                    = <span class="cur-sym">PKR</span>0.00 per gram
+                  </div>
                 </div>
               </div>
 
               <div class="auto-display" id="silver-nisaab-display">
-                Silver Nisaab (612.36g &times; 0.00): <strong>0.00</strong>
+                Silver Nisaab (612.36g &times; 0.00 per gram): <strong>0.00</strong>
               </div>
               <div class="auto-display" id="gold-nisaab-display">
-                Gold Nisaab (87.48g &times; 0.00): <strong>0.00</strong>
+                Gold Nisaab (87.48g &times; 0.00 per gram): <strong>0.00</strong>
               </div>
             </div>
 
@@ -147,8 +165,8 @@
                     step="any"
                   />
                   <select id="gold-unit" class="form-select">
+                    <option value="tola" selected>Tola</option>
                     <option value="grams">Grams</option>
-                    <option value="tola">Tola</option>
                   </select>
                 </div>
               </div>
@@ -175,8 +193,8 @@
                     step="any"
                   />
                   <select id="silver-unit" class="form-select">
+                    <option value="tola" selected>Tola</option>
                     <option value="grams">Grams</option>
-                    <option value="tola">Tola</option>
                   </select>
                 </div>
               </div>
@@ -564,17 +582,43 @@
         function calculate() {
           var sym = getCurrencySymbol();
 
-          var goldPrice = getVal("gold-price");
-          var silverPrice = getVal("silver-price");
+          // Resolve price per gram regardless of which unit the user entered
+          var goldPriceRaw = getVal("gold-price");
+          var goldPriceUnit = document.getElementById("gold-price-unit").value;
+          var goldPricePerGram = goldPriceUnit === "tola"
+            ? goldPriceRaw / TOLA_TO_GRAMS
+            : goldPriceRaw;
+          var goldPricePerTola = goldPriceUnit === "tola"
+            ? goldPriceRaw
+            : goldPriceRaw * TOLA_TO_GRAMS;
 
-          var silverNisaab = SILVER_NISAAB_GRAMS * silverPrice;
-          var goldNisaab = GOLD_NISAAB_GRAMS * goldPrice;
+          var silverPriceRaw = getVal("silver-price");
+          var silverPriceUnit = document.getElementById("silver-price-unit").value;
+          var silverPricePerGram = silverPriceUnit === "tola"
+            ? silverPriceRaw / TOLA_TO_GRAMS
+            : silverPriceRaw;
+          var silverPricePerTola = silverPriceUnit === "tola"
+            ? silverPriceRaw
+            : silverPriceRaw * TOLA_TO_GRAMS;
+
+          // Helper text: show the converted equivalent
+          document.getElementById("gold-price-helper").innerHTML = goldPriceUnit === "tola"
+            ? "= " + sym + fmt(goldPricePerGram) + " per gram"
+            : "= " + sym + fmt(goldPricePerTola) + " per tola";
+
+          document.getElementById("silver-price-helper").innerHTML = silverPriceUnit === "tola"
+            ? "= " + sym + fmt(silverPricePerGram) + " per gram"
+            : "= " + sym + fmt(silverPricePerTola) + " per tola";
+
+          // Nisaab always calculated from per-gram price
+          var silverNisaab = SILVER_NISAAB_GRAMS * silverPricePerGram;
+          var goldNisaab = GOLD_NISAAB_GRAMS * goldPricePerGram;
 
           document.getElementById("silver-nisaab-display").innerHTML =
             "Silver Nisaab (612.36g &times; " +
             sym +
-            fmt(silverPrice) +
-            "): <strong>" +
+            fmt(silverPricePerGram) +
+            " per gram): <strong>" +
             sym +
             fmt(silverNisaab) +
             "</strong>";
@@ -582,8 +626,8 @@
           document.getElementById("gold-nisaab-display").innerHTML =
             "Gold Nisaab (87.48g &times; " +
             sym +
-            fmt(goldPrice) +
-            "): <strong>" +
+            fmt(goldPricePerGram) +
+            " per gram): <strong>" +
             sym +
             fmt(goldNisaab) +
             "</strong>";
@@ -592,7 +636,7 @@
           var goldUnit = document.getElementById("gold-unit").value;
           var goldGrams =
             goldUnit === "tola" ? goldAmount * TOLA_TO_GRAMS : goldAmount;
-          var goldValue = goldGrams * goldPrice;
+          var goldValue = goldGrams * goldPricePerGram;
           document.getElementById("gold-value-display").innerHTML =
             "Gold value: <strong>" + sym + fmt(goldValue) + "</strong>";
 
@@ -600,7 +644,7 @@
           var silverUnit = document.getElementById("silver-unit").value;
           var silverGrams =
             silverUnit === "tola" ? silverAmount * TOLA_TO_GRAMS : silverAmount;
-          var silverValue = silverGrams * silverPrice;
+          var silverValue = silverGrams * silverPricePerGram;
           document.getElementById("silver-value-display").innerHTML =
             "Silver value: <strong>" + sym + fmt(silverValue) + "</strong>";
 
@@ -688,20 +732,62 @@
         }
 
         function resetAll() {
+          // Clear all number inputs
           document
             .querySelectorAll(".tool-container input[type='number']")
             .forEach(function (input) {
               input.value = "";
             });
-          document.getElementById("gold-unit").value = "grams";
-          document.getElementById("silver-unit").value = "grams";
-          calculate();
+
+          // Reset all selects to defaults
+          document.getElementById("gold-price-unit").value = "tola";
+          document.getElementById("silver-price-unit").value = "tola";
+          document.getElementById("gold-unit").value = "tola";
+          document.getElementById("silver-unit").value = "tola";
+
+          var sym = getCurrencySymbol();
+          var zero = sym + "0.00";
+
+          // Reset price helper text
+          document.getElementById("gold-price-helper").innerHTML =
+            "= " + zero + " per gram";
+          document.getElementById("silver-price-helper").innerHTML =
+            "= " + zero + " per gram";
+
+          // Reset nisaab displays
+          document.getElementById("silver-nisaab-display").innerHTML =
+            "Silver Nisaab (612.36g &times; " + zero + " per gram): <strong>" + zero + "</strong>";
+          document.getElementById("gold-nisaab-display").innerHTML =
+            "Gold Nisaab (87.48g &times; " + zero + " per gram): <strong>" + zero + "</strong>";
+
+          // Reset metal value displays
+          document.getElementById("gold-value-display").innerHTML =
+            "Gold value: <strong>" + zero + "</strong>";
+          document.getElementById("silver-value-display").innerHTML =
+            "Silver value: <strong>" + zero + "</strong>";
+
+          // Reset result cards
+          document.getElementById("result-total-assets").textContent = zero;
+          document.getElementById("result-total-liabilities").textContent = zero;
+          document.getElementById("result-net-wealth").textContent = zero;
+          document.getElementById("result-silver-nisaab").textContent = zero;
+          document.getElementById("result-gold-nisaab").textContent = zero;
+
+          // Reset nisaab status badge
+          document.getElementById("nisaab-status").innerHTML =
+            '<span class="badge-none">Enter silver price</span>';
+
+          // Reset and hide zakat due card
+          document.getElementById("zakat-amount-big").textContent = zero;
+          document.getElementById("zakat-amount-sub").textContent =
+            "2.5% of Net Zakatable Wealth";
+          document.getElementById("zakat-amount-card").classList.add("hidden");
         }
 
         function init() {
           document
             .querySelectorAll(
-              ".tool-container input[type='number'], #gold-unit, #silver-unit"
+              ".tool-container input[type='number'], #gold-unit, #silver-unit, #gold-price-unit, #silver-price-unit"
             )
             .forEach(function (el) {
               el.addEventListener("input", calculate);
