@@ -1,0 +1,2040 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solar System Calculator Pakistan - Panels, Cost &amp; Savings | YourSimpleTools</title>
+    <meta
+      name="description"
+      content="Calculate how many solar panels you need in Pakistan. Enter your panel wattage, units consumed, and city to get accurate system size, cost estimate, and monthly savings. Free tool."
+    />
+    <meta
+      name="keywords"
+      content="solar calculator pakistan, how many solar panels do i need, solar system size calculator, solar cost estimator pakistan, solar plates calculator pakistan"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      /* Solar calculator tool-specific styles */
+      .solar-tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      /* Override notice-warning background to match design spec */
+      .notice-warning {
+        background: #fff7ed;
+      }
+
+      /* System type radio cards */
+      .system-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+      }
+
+      .system-card {
+        cursor: pointer;
+        position: relative;
+        transition: all 0.18s ease;
+      }
+
+      .system-card input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+        pointer-events: none;
+      }
+
+      /* Appliance icon in toggle rows */
+      .appl-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: var(--color-accent);
+      }
+
+      .appl-icon svg {
+        width: 1rem;
+        height: 1rem;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.75;
+      }
+
+      /* Appliance collapsible input grid */
+      .appliance-inputs {
+        display: none;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0.5rem;
+        padding: 0.375rem 1rem 0.75rem 3.75rem;
+        background: var(--color-bg);
+        border-top: 0.0625rem solid var(--color-border);
+      }
+
+      .appliance-inputs.is-visible {
+        display: grid;
+      }
+
+      .appliance-inputs .form-group {
+        margin-bottom: 0;
+      }
+
+      /* Savings cards */
+      .savings-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .savings-cards-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        margin-bottom: 0;
+      }
+
+      .savings-card-amount {
+        font-size: 1.625rem;
+        font-weight: 600;
+        line-height: 1.1;
+        margin: 0.375rem 0 0.25rem;
+        color: var(--color-accent);
+      }
+
+      /* Recommendation hero size display */
+      .rec-system-size {
+        font-size: 2.25rem;
+        font-weight: 600;
+        color: var(--color-accent);
+        line-height: 1.1;
+        margin: 0.25rem 0 0.5rem;
+      }
+
+      /* Cost breakdown table rows */
+      .cost-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 0.5625rem 0;
+        border-bottom: 0.0625rem solid var(--color-border);
+        gap: 1rem;
+      }
+
+      .cost-row:last-of-type {
+        border-bottom: none;
+      }
+
+      .cost-row-label {
+        font-size: var(--font-size-small);
+        color: var(--color-text-secondary);
+        flex: 1;
+      }
+
+      .cost-row-sub {
+        display: block;
+        font-size: 0.75rem;
+        color: var(--color-text-secondary);
+        opacity: 0.8;
+        margin-top: 0.125rem;
+      }
+
+      .cost-row-value {
+        font-size: var(--font-size-small);
+        font-weight: 600;
+        color: var(--color-text-primary);
+        white-space: nowrap;
+      }
+
+      .cost-total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.875rem 0 0;
+        margin-top: 0.25rem;
+        border-top: 0.125rem solid var(--color-text-primary);
+      }
+
+      .cost-total-label {
+        font-size: var(--font-size-body);
+        font-weight: 600;
+        color: var(--color-text-primary);
+      }
+
+      .cost-total-value {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--color-accent);
+      }
+
+      /* What you gain section */
+      .gains-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem 1.5rem;
+      }
+
+      .gains-item {
+        display: flex;
+        gap: 0.875rem;
+        align-items: flex-start;
+      }
+
+      .gains-icon {
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: var(--border-radius-icon);
+        background: var(--color-accent-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 0.0625rem;
+      }
+
+      .gains-icon svg {
+        width: 1.125rem;
+        height: 1.125rem;
+        stroke: var(--color-accent);
+        fill: none;
+        stroke-width: 1.75;
+      }
+
+      .gains-text-title {
+        font-size: var(--font-size-small);
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin: 0 0 0.25rem;
+      }
+
+      .gains-text-desc {
+        font-size: 0.75rem;
+        color: var(--color-text-secondary);
+        line-height: var(--line-height-normal);
+        margin: 0;
+      }
+
+      /* FAQ accordion */
+      .faq-item {
+        border-bottom: 0.0625rem solid var(--color-border);
+        padding: 1rem 0;
+      }
+
+      .faq-item:first-child {
+        border-top: 0.0625rem solid var(--color-border);
+      }
+
+      .faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        cursor: pointer;
+        font-size: var(--font-size-body);
+        font-weight: 500;
+        color: var(--color-text-primary);
+        background: none;
+        border: none;
+        width: 100%;
+        text-align: left;
+        padding: 0;
+        gap: 1rem;
+        font-family: var(--font-family-base);
+        line-height: var(--line-height-snug);
+      }
+
+      .faq-question svg {
+        width: 1rem;
+        height: 1rem;
+        stroke: var(--color-text-secondary);
+        fill: none;
+        stroke-width: 2;
+        flex-shrink: 0;
+        transition: transform 0.2s ease;
+        margin-top: 0.125rem;
+      }
+
+      .faq-item.is-open .faq-question svg {
+        transform: rotate(180deg);
+      }
+
+      .faq-answer {
+        display: none;
+        font-size: var(--font-size-small);
+        color: var(--color-text-secondary);
+        line-height: var(--line-height-normal);
+        padding-top: 0.75rem;
+        padding-right: 2rem;
+        margin: 0;
+      }
+
+      .faq-item.is-open .faq-answer {
+        display: block;
+      }
+
+      /* Utility */
+      .print-header {
+        display: none;
+      }
+
+      .print-date {
+        display: none;
+      }
+
+      /* Responsive overrides */
+      @media (max-width: 48rem) {
+        .system-cards {
+          grid-template-columns: 1fr;
+        }
+
+        .savings-cards-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .savings-cards-grid-2 {
+          grid-template-columns: 1fr;
+        }
+
+        .gains-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .appliance-inputs {
+          grid-template-columns: 1fr 1fr;
+          padding-left: 1rem;
+        }
+      }
+
+      @media (max-width: 30rem) {
+        .savings-cards-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .rec-system-size {
+          font-size: 1.75rem;
+        }
+      }
+
+      /* Print styles */
+      @media print {
+        .nav,
+        .footer,
+        .solar-tabs,
+        #tab-units,
+        #tab-appliances,
+        .faq-section,
+        #print-btn,
+        .calc-btns,
+        .tool-breadcrumb,
+        .notice-box {
+          display: none !important;
+        }
+
+        #results-section {
+          display: block !important;
+        }
+
+        .print-header {
+          display: block !important;
+          font-size: 1.125rem;
+          font-weight: 600;
+          color: #1f6b57;
+          margin-bottom: 0.25rem;
+          font-family: "Figtree", sans-serif;
+        }
+
+        .print-date {
+          display: block !important;
+          font-size: 0.75rem;
+          color: #707070;
+          margin-top: 2rem;
+          border-top: 0.0625rem solid #e5e7e3;
+          padding-top: 0.625rem;
+          font-family: "Figtree", sans-serif;
+        }
+
+        body {
+          background: white !important;
+        }
+
+        .tool-container {
+          border: none !important;
+          padding: 0 !important;
+        }
+
+        .savings-card-amount,
+        .rec-system-size,
+        .cost-total-value {
+          color: #1f6b57 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        .result-card--accent {
+          background: #eff5f1 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav" aria-label="Primary">
+      <div class="nav-inner">
+        <a href="../index.html" class="nav-logo">YourSimpleTools</a>
+        <ul id="primary-navigation" class="nav-links">
+          <li><a href="../index.html#popular-tools">Tools</a></li>
+          <li><a href="../index.html#categories">Categories</a></li>
+          <li><a href="../about.html">About</a></li>
+        </ul>
+        <button type="button" class="nav-cta">Try a Tool</button>
+        <button
+          type="button"
+          class="nav-mobile-toggle"
+          aria-expanded="false"
+          aria-controls="primary-navigation"
+          aria-label="Open menu"
+        >
+          <i data-lucide="menu" aria-hidden="true"></i>
+        </button>
+      </div>
+    </nav>
+
+    <main>
+      <div class="tool-page">
+        <div class="container">
+
+          <nav class="tool-breadcrumb" aria-label="Breadcrumb">
+            <a href="../index.html">Home</a>
+            <span aria-hidden="true"> &rsaquo; </span>
+            <a href="../index.html#popular-tools">Tools</a>
+            <span aria-hidden="true"> &rsaquo; </span>
+            <span>Solar Calculator</span>
+          </nav>
+
+          <div class="tool-page-header">
+            <h1 class="tool-page-title">Solar System Calculator - Pakistan</h1>
+            <p class="tool-page-desc">
+              Estimate your solar system size, number of panels, total cost, and monthly savings based on your actual inputs.
+            </p>
+          </div>
+
+          <p class="print-header" aria-hidden="true">YourSimpleTools.com - Solar Estimate</p>
+
+          <div class="notice-box notice-warning" role="note">
+            <span class="notice-icon">
+              <i data-lucide="triangle-alert" aria-hidden="true"></i>
+            </span>
+            <p>
+              Solar prices and electricity rates change frequently. Enter your own values below for the most accurate estimate.
+              Always get 2-3 quotes from certified installers before purchasing.
+            </p>
+          </div>
+
+          <div class="tool-container">
+
+            <!-- City Selection (shared by both tabs) -->
+            <div class="form-group">
+              <label class="form-label" for="city-select">Your City</label>
+              <select id="city-select" class="form-select" aria-label="Select your city">
+                <option value="1.15">Karachi / Hyderabad</option>
+                <option value="1.15">Sukkur / Interior Sindh</option>
+                <option value="1.10">Multan / Bahawalpur</option>
+                <option value="1.05">Lahore / Faisalabad</option>
+                <option value="1.00" selected>Islamabad / Rawalpindi</option>
+                <option value="0.95">Peshawar / KPK</option>
+                <option value="0.95">Quetta / Balochistan</option>
+                <option value="0.90">Abbottabad / Murree</option>
+              </select>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="solar-tabs" role="tablist" aria-label="Calculation method">
+              <button
+                type="button"
+                id="btn-tab-units"
+                class="btn-primary"
+                role="tab"
+                aria-selected="true"
+                aria-controls="tab-units"
+              >
+                By Units Consumed
+              </button>
+              <button
+                type="button"
+                id="btn-tab-appliances"
+                class="btn-secondary"
+                role="tab"
+                aria-selected="false"
+                aria-controls="tab-appliances"
+              >
+                By Appliances
+              </button>
+            </div>
+
+            <!-- TAB 1: By Units Consumed -->
+            <div id="tab-units" role="tabpanel" aria-labelledby="btn-tab-units">
+
+              <div class="calc-section">
+                <h2 class="calc-section-title">
+                  <i data-lucide="zap" aria-hidden="true"></i>
+                  Your Electricity Usage
+                </h2>
+
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label class="form-label" for="monthly-units">Average Monthly Units (kWh)</label>
+                    <input
+                      type="number"
+                      id="monthly-units"
+                      class="form-input"
+                      placeholder="e.g. 500"
+                      min="50"
+                      aria-describedby="monthly-units-hint"
+                    />
+                    <p id="monthly-units-hint" class="text-small text-muted mt-4">
+                      Find this on your electricity bill - look for "Units Consumed"
+                    </p>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="monthly-bill">Current Monthly Bill (PKR)</label>
+                    <input
+                      type="number"
+                      id="monthly-bill"
+                      class="form-input"
+                      placeholder="e.g. 25000"
+                      aria-describedby="monthly-bill-hint"
+                    />
+                    <p id="monthly-bill-hint" class="text-small text-muted mt-4">
+                      Enter your average bill to calculate your actual per-unit rate
+                    </p>
+                  </div>
+                </div>
+
+                <div class="auto-display mt-8" id="effective-rate-display" aria-live="polite">
+                  Enter units and bill to calculate your rate
+                </div>
+              </div>
+
+            </div>
+            <!-- END TAB 1 -->
+
+            <!-- TAB 2: By Appliances -->
+            <div id="tab-appliances" class="hidden" role="tabpanel" aria-labelledby="btn-tab-appliances">
+
+              <div class="calc-section">
+                <h2 class="calc-section-title">
+                  <i data-lucide="plug" aria-hidden="true"></i>
+                  Select Your Appliances
+                </h2>
+                <p class="calc-section-note">
+                  Toggle the appliances you want to run on solar. Enter how many hours per day you use each.
+                </p>
+
+                <div class="toggle-list" id="appliance-list">
+
+                  <!-- Inverter AC 1 Ton -->
+                  <div class="toggle-row" id="row-ac1ton">
+                    <div class="flex-center gap-8">
+                      <label class="toggle-switch" aria-label="Enable Inverter AC 1 Ton">
+                        <input type="checkbox" id="toggle-ac1ton" />
+                        <span class="toggle-slider"></span>
+                      </label>
+                      <span class="appl-icon" aria-hidden="true"><i data-lucide="wind"></i></span>
+                      <span class="toggle-label">Inverter AC 1 Ton</span>
+                    </div>
+                    <span class="text-small text-muted" id="daily-ac1ton" aria-live="polite">0 kWh/day</span>
+                  </div>
+                  <div class="appliance-inputs" id="inputs-ac1ton">
+                    <div class="form-group">
+                      <label class="form-label" for="qty-ac1ton">Qty</label>
+                      <input type="number" id="qty-ac1ton" class="form-input" value="1" min="1" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="hours-ac1ton">Hrs/Day</label>
+                      <input type="number" id="hours-ac1ton" class="form-input" value="8" min="0" max="24" step="0.5" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="watts-ac1ton">Watts/Unit</label>
+                      <input type="number" id="watts-ac1ton" class="form-input" value="1000" min="1" />
+                    </div>
+                  </div>
+
+                  <!-- Inverter AC 1.5 Ton -->
+                  <div class="toggle-row" id="row-ac15ton">
+                    <div class="flex-center gap-8">
+                      <label class="toggle-switch" aria-label="Enable Inverter AC 1.5 Ton">
+                        <input type="checkbox" id="toggle-ac15ton" />
+                        <span class="toggle-slider"></span>
+                      </label>
+                      <span class="appl-icon" aria-hidden="true"><i data-lucide="wind"></i></span>
+                      <span class="toggle-label">Inverter AC 1.5 Ton</span>
+                    </div>
+                    <span class="text-small text-muted" id="daily-ac15ton" aria-live="polite">0 kWh/day</span>
+                  </div>
+                  <div class="appliance-inputs" id="inputs-ac15ton">
+                    <div class="form-group">
+                      <label class="form-label" for="qty-ac15ton">Qty</label>
+                      <input type="number" id="qty-ac15ton" class="form-input" value="1" min="1" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="hours-ac15ton">Hrs/Day</label>
+                      <input type="number" id="hours-ac15ton" class="form-input" value="8" min="0" max="24" step="0.5" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="watts-ac15ton">Watts/Unit</label>
+                      <input type="number" id="watts-ac15ton" class="form-input" value="1500" min="1" />
+                    </div>
+                  </div>
+
+                  <!-- Inverter AC 2 Ton -->
+                  <div class="toggle-row" id="row-ac2ton">
+                    <div class="flex-center gap-8">
+                      <label class="toggle-switch" aria-label="Enable Inverter AC 2 Ton">
+                        <input type="checkbox" id="toggle-ac2ton" />
+                        <span class="toggle-slider"></span>
+                      </label>
+                      <span class="appl-icon" aria-hidden="true"><i data-lucide="wind"></i></span>
+                      <span class="toggle-label">Inverter AC 2 Ton</span>
+                    </div>
+                    <span class="text-small text-muted" id="daily-ac2ton" aria-live="polite">0 kWh/day</span>
+                  </div>
+                  <div class="appliance-inputs" id="inputs-ac2ton">
+                    <div class="form-group">
+                      <label class="form-label" for="qty-ac2ton">Qty</label>
+                      <input type="number" id="qty-ac2ton" class="form-input" value="1" min="1" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="hours-ac2ton">Hrs/Day</label>
+                      <input type="number" id="hours-ac2ton" class="form-input" value="6" min="0" max="24" step="0.5" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="watts-ac2ton">Watts/Unit</label>
+                      <input type="number" id="watts-ac2ton" class="form-input" value="2000" min="1" />
+                    </div>
+                  </div>
+
+                  <!-- Ceiling Fan -->
+                  <div class="toggle-row" id="row-fan">
+                    <div class="flex-center gap-8">
+                      <label class="toggle-switch" aria-label="Enable Ceiling Fan">
+                        <input type="checkbox" id="toggle-fan" checked />
+                        <span class="toggle-slider"></span>
+                      </label>
+                      <span class="appl-icon" aria-hidden="true"><i data-lucide="loader"></i></span>
+                      <span class="toggle-label">Ceiling Fan</span>
+                    </div>
+                    <span class="text-small text-muted" id="daily-fan" aria-live="polite">0 kWh/day</span>
+                  </div>
+                  <div class="appliance-inputs is-visible" id="inputs-fan">
+                    <div class="form-group">
+                      <label class="form-label" for="qty-fan">Qty</label>
+                      <input type="number" id="qty-fan" class="form-input" value="1" min="1" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="hours-fan">Hrs/Day</label>
+                      <input type="number" id="hours-fan" class="form-input" value="12" min="0" max="24" step="0.5" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="watts-fan">Watts/Unit</label>
+                      <input type="number" id="watts-fan" class="form-input" value="75" min="1" />
+                    </div>
+                  </div>
+
+                  <!-- LED Lights -->
+                  <div class="toggle-row" id="row-lights">
+                    <div class="flex-center gap-8">
+                      <label class="toggle-switch" aria-label="Enable LED Lights">
+                        <input type="checkbox" id="toggle-lights" checked />
+                        <span class="toggle-slider"></span>
+                      </label>
+                      <span class="appl-icon" aria-hidden="true"><i data-lucide="lightbulb"></i></span>
+                      <span class="toggle-label">LED Lights</span>
+                    </div>
+                    <span class="text-small text-muted" id="daily-lights" aria-live="polite">0 kWh/day</span>
+                  </div>
+                  <div class="appliance-inputs is-visible" id="inputs-lights">
+                    <div class="form-group">
+                      <label class="form-label" for="qty-lights">Qty</label>
+                      <input type="number" id="qty-lights" class="form-input" value="1" min="1" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="hours-lights">Hrs/Day</label>
+                      <input type="number" id="hours-lights" class="form-input" value="6" min="0" max="24" step="0.5" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="watts-lights">Watts/Unit</label>
+                      <input type="number" id="watts-lights" class="form-input" value="15" min="1" />
+                    </div>
+                  </div>
+
+                  <!-- Refrigerator -->
+                  <div class="toggle-row" id="row-fridge">
+                    <div class="flex-center gap-8">
+                      <label class="toggle-switch" aria-label="Enable Refrigerator">
+                        <input type="checkbox" id="toggle-fridge" checked />
+                        <span class="toggle-slider"></span>
+                      </label>
+                      <span class="appl-icon" aria-hidden="true"><i data-lucide="thermometer"></i></span>
+                      <span class="toggle-label">Refrigerator</span>
+                    </div>
+                    <span class="text-small text-muted" id="daily-fridge" aria-live="polite">0 kWh/day</span>
+                  </div>
+                  <div class="appliance-inputs is-visible" id="inputs-fridge">
+                    <div class="form-group">
+                      <label class="form-label" for="qty-fridge">Qty</label>
+                      <input type="number" id="qty-fridge" class="form-input" value="1" min="1" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="hours-fridge">Hrs/Day</label>
+                      <input type="number" id="hours-fridge" class="form-input" value="24" min="0" max="24" step="0.5" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="watts-fridge">Watts/Unit</label>
+                      <input type="number" id="watts-fridge" class="form-input" value="200" min="1" />
+                    </div>
+                  </div>
+
+                  <!-- Water Pump 0.5HP -->
+                  <div class="toggle-row" id="row-pump05hp">
+                    <div class="flex-center gap-8">
+                      <label class="toggle-switch" aria-label="Enable Water Pump 0.5HP">
+                        <input type="checkbox" id="toggle-pump05hp" />
+                        <span class="toggle-slider"></span>
+                      </label>
+                      <span class="appl-icon" aria-hidden="true"><i data-lucide="droplets"></i></span>
+                      <span class="toggle-label">Water Pump 0.5HP</span>
+                    </div>
+                    <span class="text-small text-muted" id="daily-pump05hp" aria-live="polite">0 kWh/day</span>
+                  </div>
+                  <div class="appliance-inputs" id="inputs-pump05hp">
+                    <div class="form-group">
+                      <label class="form-label" for="qty-pump05hp">Qty</label>
+                      <input type="number" id="qty-pump05hp" class="form-input" value="1" min="1" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="hours-pump05hp">Hrs/Day</label>
+                      <input type="number" id="hours-pump05hp" class="form-input" value="2" min="0" max="24" step="0.5" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="watts-pump05hp">Watts/Unit</label>
+                      <input type="number" id="watts-pump05hp" class="form-input" value="375" min="1" />
+                    </div>
+                  </div>
+
+                  <!-- Water Pump 1HP -->
+                  <div class="toggle-row" id="row-pump1hp">
+                    <div class="flex-center gap-8">
+                      <label class="toggle-switch" aria-label="Enable Water Pump 1HP">
+                        <input type="checkbox" id="toggle-pump1hp" />
+                        <span class="toggle-slider"></span>
+                      </label>
+                      <span class="appl-icon" aria-hidden="true"><i data-lucide="droplets"></i></span>
+                      <span class="toggle-label">Water Pump 1HP</span>
+                    </div>
+                    <span class="text-small text-muted" id="daily-pump1hp" aria-live="polite">0 kWh/day</span>
+                  </div>
+                  <div class="appliance-inputs" id="inputs-pump1hp">
+                    <div class="form-group">
+                      <label class="form-label" for="qty-pump1hp">Qty</label>
+                      <input type="number" id="qty-pump1hp" class="form-input" value="1" min="1" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="hours-pump1hp">Hrs/Day</label>
+                      <input type="number" id="hours-pump1hp" class="form-input" value="2" min="0" max="24" step="0.5" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="watts-pump1hp">Watts/Unit</label>
+                      <input type="number" id="watts-pump1hp" class="form-input" value="750" min="1" />
+                    </div>
+                  </div>
+
+                  <!-- Washing Machine -->
+                  <div class="toggle-row" id="row-washer">
+                    <div class="flex-center gap-8">
+                      <label class="toggle-switch" aria-label="Enable Washing Machine">
+                        <input type="checkbox" id="toggle-washer" />
+                        <span class="toggle-slider"></span>
+                      </label>
+                      <span class="appl-icon" aria-hidden="true"><i data-lucide="circle"></i></span>
+                      <span class="toggle-label">Washing Machine</span>
+                    </div>
+                    <span class="text-small text-muted" id="daily-washer" aria-live="polite">0 kWh/day</span>
+                  </div>
+                  <div class="appliance-inputs" id="inputs-washer">
+                    <div class="form-group">
+                      <label class="form-label" for="qty-washer">Qty</label>
+                      <input type="number" id="qty-washer" class="form-input" value="1" min="1" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="hours-washer">Hrs/Day</label>
+                      <input type="number" id="hours-washer" class="form-input" value="1" min="0" max="24" step="0.5" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="watts-washer">Watts/Unit</label>
+                      <input type="number" id="watts-washer" class="form-input" value="500" min="1" />
+                    </div>
+                  </div>
+
+                  <!-- Water Heater / Geyser -->
+                  <div class="toggle-row" id="row-geyser">
+                    <div class="flex-center gap-8">
+                      <label class="toggle-switch" aria-label="Enable Water Heater / Geyser">
+                        <input type="checkbox" id="toggle-geyser" />
+                        <span class="toggle-slider"></span>
+                      </label>
+                      <span class="appl-icon" aria-hidden="true"><i data-lucide="flame"></i></span>
+                      <span class="toggle-label">Water Heater / Geyser</span>
+                    </div>
+                    <span class="text-small text-muted" id="daily-geyser" aria-live="polite">0 kWh/day</span>
+                  </div>
+                  <div class="appliance-inputs" id="inputs-geyser">
+                    <div class="form-group">
+                      <label class="form-label" for="qty-geyser">Qty</label>
+                      <input type="number" id="qty-geyser" class="form-input" value="1" min="1" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="hours-geyser">Hrs/Day</label>
+                      <input type="number" id="hours-geyser" class="form-input" value="1" min="0" max="24" step="0.5" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="watts-geyser">Watts/Unit</label>
+                      <input type="number" id="watts-geyser" class="form-input" value="3000" min="1" />
+                    </div>
+                  </div>
+
+                  <!-- Computer or Laptop -->
+                  <div class="toggle-row" id="row-computer">
+                    <div class="flex-center gap-8">
+                      <label class="toggle-switch" aria-label="Enable Computer or Laptop">
+                        <input type="checkbox" id="toggle-computer" />
+                        <span class="toggle-slider"></span>
+                      </label>
+                      <span class="appl-icon" aria-hidden="true"><i data-lucide="monitor"></i></span>
+                      <span class="toggle-label">Computer or Laptop</span>
+                    </div>
+                    <span class="text-small text-muted" id="daily-computer" aria-live="polite">0 kWh/day</span>
+                  </div>
+                  <div class="appliance-inputs" id="inputs-computer">
+                    <div class="form-group">
+                      <label class="form-label" for="qty-computer">Qty</label>
+                      <input type="number" id="qty-computer" class="form-input" value="1" min="1" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="hours-computer">Hrs/Day</label>
+                      <input type="number" id="hours-computer" class="form-input" value="6" min="0" max="24" step="0.5" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="watts-computer">Watts/Unit</label>
+                      <input type="number" id="watts-computer" class="form-input" value="150" min="1" />
+                    </div>
+                  </div>
+
+                  <!-- LED TV -->
+                  <div class="toggle-row" id="row-tv">
+                    <div class="flex-center gap-8">
+                      <label class="toggle-switch" aria-label="Enable LED TV">
+                        <input type="checkbox" id="toggle-tv" />
+                        <span class="toggle-slider"></span>
+                      </label>
+                      <span class="appl-icon" aria-hidden="true"><i data-lucide="tv"></i></span>
+                      <span class="toggle-label">LED TV</span>
+                    </div>
+                    <span class="text-small text-muted" id="daily-tv" aria-live="polite">0 kWh/day</span>
+                  </div>
+                  <div class="appliance-inputs" id="inputs-tv">
+                    <div class="form-group">
+                      <label class="form-label" for="qty-tv">Qty</label>
+                      <input type="number" id="qty-tv" class="form-input" value="1" min="1" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="hours-tv">Hrs/Day</label>
+                      <input type="number" id="hours-tv" class="form-input" value="5" min="0" max="24" step="0.5" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="watts-tv">Watts/Unit</label>
+                      <input type="number" id="watts-tv" class="form-input" value="100" min="1" />
+                    </div>
+                  </div>
+
+                  <!-- Iron -->
+                  <div class="toggle-row" id="row-iron">
+                    <div class="flex-center gap-8">
+                      <label class="toggle-switch" aria-label="Enable Iron">
+                        <input type="checkbox" id="toggle-iron" />
+                        <span class="toggle-slider"></span>
+                      </label>
+                      <span class="appl-icon" aria-hidden="true"><i data-lucide="zap"></i></span>
+                      <span class="toggle-label">Iron</span>
+                    </div>
+                    <span class="text-small text-muted" id="daily-iron" aria-live="polite">0 kWh/day</span>
+                  </div>
+                  <div class="appliance-inputs" id="inputs-iron">
+                    <div class="form-group">
+                      <label class="form-label" for="qty-iron">Qty</label>
+                      <input type="number" id="qty-iron" class="form-input" value="1" min="1" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="hours-iron">Hrs/Day</label>
+                      <input type="number" id="hours-iron" class="form-input" value="1" min="0" max="24" step="0.5" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="watts-iron">Watts/Unit</label>
+                      <input type="number" id="watts-iron" class="form-input" value="1000" min="1" />
+                    </div>
+                  </div>
+
+                  <!-- Microwave -->
+                  <div class="toggle-row" id="row-microwave">
+                    <div class="flex-center gap-8">
+                      <label class="toggle-switch" aria-label="Enable Microwave">
+                        <input type="checkbox" id="toggle-microwave" />
+                        <span class="toggle-slider"></span>
+                      </label>
+                      <span class="appl-icon" aria-hidden="true"><i data-lucide="zap"></i></span>
+                      <span class="toggle-label">Microwave</span>
+                    </div>
+                    <span class="text-small text-muted" id="daily-microwave" aria-live="polite">0 kWh/day</span>
+                  </div>
+                  <div class="appliance-inputs" id="inputs-microwave">
+                    <div class="form-group">
+                      <label class="form-label" for="qty-microwave">Qty</label>
+                      <input type="number" id="qty-microwave" class="form-input" value="1" min="1" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="hours-microwave">Hrs/Day</label>
+                      <input type="number" id="hours-microwave" class="form-input" value="0.5" min="0" max="24" step="0.25" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="watts-microwave">Watts/Unit</label>
+                      <input type="number" id="watts-microwave" class="form-input" value="1200" min="1" />
+                    </div>
+                  </div>
+
+                  <!-- Custom Appliance -->
+                  <div class="toggle-row" id="row-custom">
+                    <div class="flex-center gap-8">
+                      <label class="toggle-switch" aria-label="Enable Custom Appliance">
+                        <input type="checkbox" id="toggle-custom" />
+                        <span class="toggle-slider"></span>
+                      </label>
+                      <span class="appl-icon" aria-hidden="true"><i data-lucide="plus"></i></span>
+                      <span class="toggle-label">Custom Appliance</span>
+                    </div>
+                    <span class="text-small text-muted" id="daily-custom" aria-live="polite">0 kWh/day</span>
+                  </div>
+                  <div class="appliance-inputs" id="inputs-custom">
+                    <div class="form-group">
+                      <label class="form-label" for="qty-custom">Qty</label>
+                      <input type="number" id="qty-custom" class="form-input" value="1" min="1" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="hours-custom">Hrs/Day</label>
+                      <input type="number" id="hours-custom" class="form-input" value="1" min="0" max="24" step="0.5" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="watts-custom">Watts/Unit</label>
+                      <input type="number" id="watts-custom" class="form-input" value="0" min="0" />
+                    </div>
+                  </div>
+
+                </div>
+                <!-- end toggle-list -->
+
+                <div class="auto-display mt-16" aria-live="polite">
+                  Total Daily Load: <strong id="tab2-total-daily">0 kWh</strong>
+                  &nbsp;&nbsp;|&nbsp;&nbsp;
+                  Estimated Monthly Units: <strong id="tab2-total-monthly">0 kWh</strong>
+                </div>
+
+              </div>
+
+            </div>
+            <!-- END TAB 2 -->
+
+            <!-- COMMON: Solar Panel Details -->
+            <div class="calc-section">
+              <h2 class="calc-section-title">
+                <i data-lucide="sun" aria-hidden="true"></i>
+                Your Solar Panel Specifications
+              </h2>
+              <p class="calc-section-note">Ask your solar dealer for these values before getting a quote</p>
+
+              <div class="form-grid-2">
+
+                <div class="form-group">
+                  <label class="form-label" for="panel-watt">Panel Wattage (Watts)</label>
+                  <input
+                    type="number"
+                    id="panel-watt"
+                    class="form-input"
+                    placeholder="e.g. 585"
+                    value="585"
+                    min="100"
+                    aria-describedby="panel-watt-hint"
+                  />
+                  <p id="panel-watt-hint" class="text-small text-muted mt-4">
+                    Common sizes: 540W, 555W, 580W, 585W, 600W, 620W. Check panel datasheet.
+                  </p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="panel-price">Panel Price per Watt (PKR)</label>
+                  <input
+                    type="number"
+                    id="panel-price"
+                    class="form-input"
+                    placeholder="e.g. 32"
+                    min="1"
+                    aria-describedby="panel-price-hint"
+                  />
+                  <p id="panel-price-hint" class="text-small text-muted mt-4">
+                    Current market range: PKR 28-45 per watt depending on brand and type.
+                  </p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="inverter-cost">Inverter Cost (PKR)</label>
+                  <input
+                    type="number"
+                    id="inverter-cost"
+                    class="form-input"
+                    placeholder="e.g. 150000"
+                    min="0"
+                    aria-describedby="inverter-cost-hint"
+                  />
+                  <p id="inverter-cost-hint" class="text-small text-muted mt-4">
+                    Typical range: PKR 80,000 to PKR 300,000 for 5-10kW string inverter.
+                  </p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="installation-cost">Installation + Wiring Cost (PKR)</label>
+                  <input
+                    type="number"
+                    id="installation-cost"
+                    class="form-input"
+                    placeholder="e.g. 40000"
+                    min="0"
+                    aria-describedby="installation-cost-hint"
+                  />
+                  <p id="installation-cost-hint" class="text-small text-muted mt-4">
+                    Typical range PKR 35,000 to PKR 60,000 depending on roof type.
+                  </p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="grid-rate">Your Grid Electricity Rate (PKR/unit)</label>
+                  <input
+                    type="number"
+                    id="grid-rate"
+                    class="form-input"
+                    placeholder="e.g. 50"
+                    min="1"
+                    step="0.01"
+                    aria-describedby="grid-rate-hint"
+                  />
+                  <p id="grid-rate-hint" class="text-small text-muted mt-4">
+                    Auto-filled from your bill above. Or enter manually. Range: PKR 22-65.
+                  </p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="net-metering-rate">Net Metering Buyback Rate (PKR/unit)</label>
+                  <input
+                    type="number"
+                    id="net-metering-rate"
+                    class="form-input"
+                    placeholder="e.g. 10"
+                    value="10"
+                    min="0"
+                    step="0.5"
+                    aria-describedby="net-metering-hint"
+                  />
+                  <p id="net-metering-hint" class="text-small text-muted mt-4">
+                    For new consumers in 2026: PKR 10/unit. Check your DISCO agreement.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- COMMON: System Type -->
+            <div class="calc-section">
+              <h2 class="calc-section-title">
+                <i data-lucide="settings" aria-hidden="true"></i>
+                System Type
+              </h2>
+
+              <div class="system-cards" role="radiogroup" aria-label="Solar system type">
+
+                <div class="result-card system-card" id="card-ongrid" tabindex="0" role="radio" aria-checked="false">
+                  <input type="radio" id="system-ongrid" name="system-type" value="ongrid" />
+                  <div class="category-icon">
+                    <i data-lucide="zap" aria-hidden="true"></i>
+                  </div>
+                  <p class="font-semibold mt-8">On-Grid (No Battery)</p>
+                  <p class="text-small text-muted mt-4">
+                    Connected to WAPDA grid. Cheapest option. No backup during load shedding.
+                  </p>
+                </div>
+
+                <div class="result-card result-card--accent system-card" id="card-hybrid" tabindex="0" role="radio" aria-checked="true">
+                  <input type="radio" id="system-hybrid" name="system-type" value="hybrid" checked />
+                  <div class="category-icon">
+                    <i data-lucide="battery-charging" aria-hidden="true"></i>
+                  </div>
+                  <p class="font-semibold mt-8">
+                    Hybrid (With Battery)
+                    <span class="badge badge-green mt-4">Recommended</span>
+                  </p>
+                  <p class="text-small text-muted mt-4">
+                    Battery backup included. Works during load shedding. Most popular in Pakistan.
+                  </p>
+                </div>
+
+                <div class="result-card system-card" id="card-offgrid" tabindex="0" role="radio" aria-checked="false">
+                  <input type="radio" id="system-offgrid" name="system-type" value="offgrid" />
+                  <div class="category-icon">
+                    <i data-lucide="sun" aria-hidden="true"></i>
+                  </div>
+                  <p class="font-semibold mt-8">Off-Grid (Full Battery)</p>
+                  <p class="text-small text-muted mt-4">
+                    Fully independent from grid. Highest upfront cost.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- COMMON: Battery Details (shown for Hybrid / Off-Grid) -->
+            <div class="calc-section" id="battery-section">
+              <h2 class="calc-section-title">
+                <i data-lucide="battery" aria-hidden="true"></i>
+                Battery Specifications
+              </h2>
+
+              <div class="form-grid-2">
+
+                <div class="form-group">
+                  <label class="form-label" for="battery-type">Battery Type</label>
+                  <select id="battery-type" class="form-select">
+                    <option value="tubular">200Ah Tall Tubular (Lead Acid)</option>
+                    <option value="li100">100Ah Lithium (LiFePO4)</option>
+                    <option value="li200">200Ah Lithium (LiFePO4)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="battery-cost-each">Price Per Battery (PKR)</label>
+                  <input
+                    type="number"
+                    id="battery-cost-each"
+                    class="form-input"
+                    placeholder="e.g. 80000"
+                    min="0"
+                    aria-describedby="battery-cost-hint"
+                  />
+                  <p id="battery-cost-hint" class="text-small text-muted mt-4">
+                    Tall Tubular 200Ah: approx PKR 70,000-90,000. Lithium 200Ah: approx PKR 180,000-250,000.
+                  </p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="num-batteries">Number of Batteries</label>
+                  <input
+                    type="number"
+                    id="num-batteries"
+                    class="form-input"
+                    placeholder="e.g. 2"
+                    min="1"
+                    aria-describedby="num-batteries-hint"
+                  />
+                  <p id="num-batteries-hint" class="text-small text-muted mt-4">
+                    For 4-6 hours backup on average home load: 2-4 batteries.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Calculate Button -->
+            <div class="calc-btns mt-24">
+              <button type="button" id="calc-btn-1" class="btn-primary w-full flex flex-center gap-8 justify-center">
+                <i data-lucide="calculator" aria-hidden="true"></i>
+                Calculate My Solar System
+              </button>
+            </div>
+
+            <!-- RESULTS SECTION -->
+            <div id="results-section" class="hidden" aria-live="polite">
+
+              <div class="calc-section">
+                <div class="flex-center gap-8 mt-8">
+                  <h2 class="results-section-title mb-8">Your Solar System Estimate</h2>
+                  <button
+                    type="button"
+                    id="print-btn"
+                    class="btn-secondary flex flex-center gap-8"
+                    aria-label="Save as PDF"
+                  >
+                    <i data-lucide="download" aria-hidden="true"></i>
+                    Save as PDF
+                  </button>
+                </div>
+              </div>
+
+              <!-- System Recommendation -->
+              <div class="results-section mt-16">
+                <h3 class="results-section-title">
+                  <i data-lucide="sun" aria-hidden="true"></i>
+                  System Recommendation
+                </h3>
+
+                <div class="zakat-amount-card">
+                  <div>
+                    <p class="zakat-amount-label">Recommended System Size</p>
+                    <p class="zakat-amount-sub">Based on your inputs and city solar factor</p>
+                  </div>
+                  <p class="zakat-amount-value" id="res-system-kw">--</p>
+                </div>
+
+                <div class="results-grid mt-12">
+                  <div class="result-card result-card--accent">
+                    <p class="result-label">Number of Panels</p>
+                    <p class="result-value" id="res-num-panels">--</p>
+                  </div>
+                  <div class="result-card result-card--accent">
+                    <p class="result-label">Panel Size</p>
+                    <p class="result-value" id="res-panel-size">--</p>
+                  </div>
+                  <div class="result-card result-card--accent">
+                    <p class="result-label">Monthly Generation</p>
+                    <p class="result-value" id="res-monthly-gen">--</p>
+                  </div>
+                </div>
+
+                <div class="auto-display mt-12">
+                  <span id="res-city-factor">City solar factor applied</span>
+                </div>
+              </div>
+
+              <!-- Cost Breakdown -->
+              <div class="results-section mt-16">
+                <h3 class="results-section-title">
+                  <i data-lucide="receipt" aria-hidden="true"></i>
+                  Cost Breakdown
+                </h3>
+
+                <div class="cost-row">
+                  <div class="cost-row-label">
+                    Solar Panels
+                    <span class="cost-row-sub" id="cost-panels-desc">--</span>
+                  </div>
+                  <span class="cost-row-value" id="cost-panels">--</span>
+                </div>
+                <div class="cost-row">
+                  <div class="cost-row-label">Inverter</div>
+                  <span class="cost-row-value" id="cost-inverter">--</span>
+                </div>
+                <div class="cost-row">
+                  <div class="cost-row-label">Installation + Wiring</div>
+                  <span class="cost-row-value" id="cost-installation">--</span>
+                </div>
+                <div class="cost-row" id="cost-battery-row">
+                  <div class="cost-row-label">
+                    Batteries
+                    <span class="cost-row-sub" id="cost-batteries-desc">--</span>
+                  </div>
+                  <span class="cost-row-value" id="cost-batteries">--</span>
+                </div>
+                <div class="cost-row">
+                  <div class="cost-row-label">
+                    Mounting Structure
+                    <span class="cost-row-sub">Estimated at 8% of panel cost</span>
+                  </div>
+                  <span class="cost-row-value" id="cost-mounting">--</span>
+                </div>
+                <div class="cost-row">
+                  <div class="cost-row-label">
+                    Miscellaneous + Transport
+                    <span class="cost-row-sub">Estimated at 5% of subtotal</span>
+                  </div>
+                  <span class="cost-row-value" id="cost-misc">--</span>
+                </div>
+
+                <div class="cost-total-row">
+                  <span class="cost-total-label">Total System Cost</span>
+                  <span class="cost-total-value" id="cost-total">--</span>
+                </div>
+              </div>
+
+              <!-- Savings Analysis -->
+              <div class="results-section mt-16">
+                <h3 class="results-section-title">
+                  <i data-lucide="trending-up" aria-hidden="true"></i>
+                  Savings Analysis
+                </h3>
+
+                <div class="savings-cards-grid">
+                  <div class="result-card result-card--accent">
+                    <p class="result-label font-semibold">You will save every month</p>
+                    <p class="savings-card-amount" id="res-monthly-savings">--</p>
+                    <p class="text-small text-muted" id="res-monthly-savings-sub">--</p>
+                  </div>
+                  <div class="result-card result-card--accent">
+                    <p class="result-label font-semibold">You will save every year</p>
+                    <p class="savings-card-amount" id="res-annual-savings">--</p>
+                    <p class="text-small text-muted">Annual electricity savings</p>
+                  </div>
+                  <div class="result-card result-card--accent">
+                    <p class="result-label font-semibold">Your investment pays back in</p>
+                    <p class="savings-card-amount" id="res-payback">--</p>
+                    <p class="text-small text-muted">Based on monthly savings vs total cost</p>
+                  </div>
+                </div>
+
+                <div class="savings-cards-grid-2">
+                  <div class="result-card result-card--accent">
+                    <p class="result-label font-semibold">Total benefit in 10 years</p>
+                    <p class="savings-card-amount" id="res-10yr">--</p>
+                    <p class="text-small text-muted">Net profit after recovering your investment</p>
+                  </div>
+                  <div class="result-card result-card--accent">
+                    <p class="result-label font-semibold">Total benefit over 25 years</p>
+                    <p class="savings-card-amount" id="res-25yr">--</p>
+                    <p class="text-small text-muted">Solar panels degrade 0.5% per year. This accounts for reduced output over time.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- What You Gain -->
+              <div class="results-section mt-16">
+                <h3 class="results-section-title">
+                  <i data-lucide="star" aria-hidden="true"></i>
+                  What You Gain With Solar
+                </h3>
+
+                <div class="gains-grid">
+
+                  <div class="gains-item">
+                    <div class="gains-icon" aria-hidden="true">
+                      <i data-lucide="shield-check"></i>
+                    </div>
+                    <div>
+                      <p class="gains-text-title">Energy Independence</p>
+                      <p class="gains-text-desc">
+                        Reduce dependence on WAPDA and escape load shedding with battery backup.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="gains-item">
+                    <div class="gains-icon" aria-hidden="true">
+                      <i data-lucide="trending-down"></i>
+                    </div>
+                    <div>
+                      <p class="gains-text-title">Bill Reduction</p>
+                      <p class="gains-text-desc">
+                        Your estimated monthly bill reduces from
+                        <strong class="text-accent" id="res-current-bill">--</strong>
+                        to
+                        <strong class="text-accent" id="res-bill-after">--</strong>.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="gains-item">
+                    <div class="gains-icon" aria-hidden="true">
+                      <i data-lucide="leaf"></i>
+                    </div>
+                    <div>
+                      <p class="gains-text-title">Environmental Impact</p>
+                      <p class="gains-text-desc">
+                        Your <span id="res-system-kw2">--</span> kW system will prevent approximately
+                        <strong class="text-accent" id="res-co2">--</strong> of CO2 per year.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="gains-item">
+                    <div class="gains-icon" aria-hidden="true">
+                      <i data-lucide="home"></i>
+                    </div>
+                    <div>
+                      <p class="gains-text-title">Property Value</p>
+                      <p class="gains-text-desc">
+                        Solar systems increase property resale value in Pakistan by an estimated 5-10%.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="gains-item">
+                    <div class="gains-icon" aria-hidden="true">
+                      <i data-lucide="calendar"></i>
+                    </div>
+                    <div>
+                      <p class="gains-text-title">Long Term Asset</p>
+                      <p class="gains-text-desc">
+                        Quality solar panels come with 25-year performance warranty and last 30+ years.
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Net Metering Info -->
+              <div class="notice-box notice-info mt-16" role="note">
+                <span class="notice-icon">
+                  <i data-lucide="info" aria-hidden="true"></i>
+                </span>
+                <div>
+                  <p class="font-semibold">2026 Net Metering Update - Important</p>
+                  <p class="mt-8">
+                    For new consumers registered after February 2026:
+                  </p>
+                  <p>- Selling excess units to grid: PKR 10/unit</p>
+                  <p>- Buying from grid: PKR 50-65/unit</p>
+                  <p class="mt-8">
+                    <strong>Recommendation:</strong> Size your system to match your consumption. Avoid oversizing as excess electricity earns very little under the new policy. A system sized for your exact consumption gives the best ROI.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+            <!-- END RESULTS SECTION -->
+
+          </div>
+          <!-- end tool-container -->
+
+          <!-- Print date footer (only visible when printing) -->
+          <p class="print-date" id="print-date-el" aria-hidden="true"></p>
+
+          <!-- FAQ Section -->
+          <section class="faq-section mt-48" aria-labelledby="faq-heading">
+            <header class="section-header">
+              <h2 id="faq-heading" class="section-title">Frequently Asked Questions</h2>
+              <p class="section-subtitle">Common questions about solar in Pakistan</p>
+            </header>
+
+            <div id="faq-list">
+
+              <div class="faq-item">
+                <button type="button" class="faq-question" aria-expanded="false">
+                  <span>What is the difference between On-Grid, Hybrid, and Off-Grid systems?</span>
+                  <i data-lucide="chevron-down" aria-hidden="true"></i>
+                </button>
+                <p class="faq-answer">
+                  On-Grid connects directly to WAPDA and is the cheapest option but provides no backup during load shedding.
+                  Hybrid includes battery backup and works during load shedding making it the most popular choice in Pakistan.
+                  Off-Grid is fully independent from the grid with the highest upfront cost but complete energy independence.
+                </p>
+              </div>
+
+              <div class="faq-item">
+                <button type="button" class="faq-question" aria-expanded="false">
+                  <span>How many panels do I need for a 1.5 ton inverter AC?</span>
+                  <i data-lucide="chevron-down" aria-hidden="true"></i>
+                </button>
+                <p class="faq-answer">
+                  A 1.5 ton inverter AC typically uses 1,200-1,500 watts. Running it for 8 hours during daytime requires
+                  approximately 10-12 kWh per day. This usually needs a 3-4 kW system depending on your total home load.
+                  Use the appliances tab above for a more accurate calculation based on all your appliances.
+                </p>
+              </div>
+
+              <div class="faq-item">
+                <button type="button" class="faq-question" aria-expanded="false">
+                  <span>Is net metering still profitable in 2026?</span>
+                  <i data-lucide="chevron-down" aria-hidden="true"></i>
+                </button>
+                <p class="faq-answer">
+                  The net metering buyback rate was reduced to PKR 10 per unit for new consumers in 2026 compared to PKR 27
+                  previously. This means exporting excess electricity earns very little. The smart approach is to size your
+                  system to match your daily consumption and maximize self-consumption. Even without net metering profits,
+                  savings of PKR 50-65 per unit make solar very worthwhile.
+                </p>
+              </div>
+
+              <div class="faq-item">
+                <button type="button" class="faq-question" aria-expanded="false">
+                  <span>Which solar panels are best for Pakistan in 2026?</span>
+                  <i data-lucide="chevron-down" aria-hidden="true"></i>
+                </button>
+                <p class="faq-answer">
+                  N-Type Monocrystalline or Bifacial panels from Tier-1 brands perform best in Pakistan. Longi, Jinko,
+                  JA Solar, Canadian Solar, and Trina are the most reliable brands. Look for panels with minimum 21%
+                  efficiency and a 25-year performance warranty. Higher wattage panels (580W-620W) reduce the number of
+                  panels needed and lower installation costs.
+                </p>
+              </div>
+
+              <div class="faq-item">
+                <button type="button" class="faq-question" aria-expanded="false">
+                  <span>What panel wattage should I choose?</span>
+                  <i data-lucide="chevron-down" aria-hidden="true"></i>
+                </button>
+                <p class="faq-answer">
+                  Most installations in Pakistan in 2026 use 580W to 620W panels. Higher wattage means fewer panels,
+                  less mounting structure, and often lower overall cost. Your dealer will confirm availability.
+                  Use the panel wattage your dealer quotes to get an accurate calculation from this tool.
+                </p>
+              </div>
+
+              <div class="faq-item">
+                <button type="button" class="faq-question" aria-expanded="false">
+                  <span>How many batteries do I need for load shedding backup?</span>
+                  <i data-lucide="chevron-down" aria-hidden="true"></i>
+                </button>
+                <p class="faq-answer">
+                  For 4-6 hours of average home backup, most households need 2-4 batteries of 200Ah. Lithium batteries
+                  are more expensive but last longer, charge faster, and perform better. Tall Tubular lead-acid batteries
+                  are the budget option. Your load during load shedding hours determines the exact number needed.
+                </p>
+              </div>
+
+            </div>
+          </section>
+
+        </div>
+        <!-- end container -->
+      </div>
+      <!-- end tool-page -->
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="../index.html" class="footer-logo">YourSimpleTools</a>
+          <p class="footer-tagline">
+            Simple, reliable tools for work and life - always free.
+          </p>
+        </div>
+        <div>
+          <p class="footer-col-title">Explore</p>
+          <ul class="footer-links">
+            <li><a href="../index.html#popular-tools">All tools</a></li>
+            <li><a href="../index.html#categories">Categories</a></li>
+            <li><a href="../about.html">About</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title">Legal</p>
+          <ul class="footer-links">
+            <li><a href="../privacy.html">Privacy</a></li>
+            <li><a href="../terms.html">Terms</a></li>
+            <li><a href="../contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; 2026 YourSimpleTools. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        "use strict";
+
+        var APPLIANCE_IDS = [
+          "ac1ton", "ac15ton", "ac2ton", "fan", "lights", "fridge",
+          "pump05hp", "pump1hp", "washer", "geyser", "computer",
+          "tv", "iron", "microwave", "custom"
+        ];
+
+        function fmt(n) {
+          return Math.round(n).toLocaleString("en-PK");
+        }
+
+        function fmtDec(n, d) {
+          return parseFloat(n.toFixed(d)).toLocaleString("en-PK");
+        }
+
+        function getNum(id) {
+          var el = document.getElementById(id);
+          if (!el) return 0;
+          var v = parseFloat(el.value);
+          return isNaN(v) ? 0 : v;
+        }
+
+        function getActiveTab() {
+          var tabUnits = document.getElementById("tab-units");
+          return tabUnits.classList.contains("hidden") ? "appliances" : "units";
+        }
+
+        function switchTab(tab) {
+          var tabUnits = document.getElementById("tab-units");
+          var tabAppl = document.getElementById("tab-appliances");
+          var btnUnits = document.getElementById("btn-tab-units");
+          var btnAppl = document.getElementById("btn-tab-appliances");
+
+          if (tab === "units") {
+            tabUnits.classList.remove("hidden");
+            tabAppl.classList.add("hidden");
+            btnUnits.className = "btn-primary";
+            btnAppl.className = "btn-secondary";
+            btnUnits.setAttribute("aria-selected", "true");
+            btnAppl.setAttribute("aria-selected", "false");
+          } else {
+            tabUnits.classList.add("hidden");
+            tabAppl.classList.remove("hidden");
+            btnUnits.className = "btn-secondary";
+            btnAppl.className = "btn-primary";
+            btnUnits.setAttribute("aria-selected", "false");
+            btnAppl.setAttribute("aria-selected", "true");
+          }
+        }
+
+        function updateEffectiveRate() {
+          var units = getNum("monthly-units");
+          var bill = getNum("monthly-bill");
+          var rateEl = document.getElementById("effective-rate-display");
+          var rateInput = document.getElementById("grid-rate");
+
+          if (units > 0 && bill > 0) {
+            var rate = bill / units;
+            rateEl.innerHTML =
+              "Your effective rate: <strong>PKR " + rate.toFixed(2) + " per unit</strong>";
+            if (!rateInput.dataset.manuallyEdited) {
+              rateInput.value = rate.toFixed(2);
+            }
+          } else {
+            rateEl.textContent = "Enter units and bill to calculate your rate";
+          }
+        }
+
+        function updateBatterySection() {
+          var checked = document.querySelector("input[name=\"system-type\"]:checked");
+          var batterySection = document.getElementById("battery-section");
+          if (checked && (checked.value === "hybrid" || checked.value === "offgrid")) {
+            batterySection.classList.remove("hidden");
+          } else {
+            batterySection.classList.add("hidden");
+          }
+        }
+
+        function selectSystemCard(value) {
+          document.querySelectorAll(".system-card").forEach(function (card) {
+            card.classList.remove("result-card--accent");
+            card.setAttribute("aria-checked", "false");
+          });
+          var targetCard = document.getElementById("card-" + value);
+          if (targetCard) {
+            targetCard.classList.add("result-card--accent");
+            targetCard.setAttribute("aria-checked", "true");
+          }
+          var radio = document.getElementById("system-" + value);
+          if (radio) radio.checked = true;
+          updateBatterySection();
+        }
+
+        function updateApplianceDaily(id) {
+          var toggle = document.getElementById("toggle-" + id);
+          var qty = parseFloat(document.getElementById("qty-" + id).value) || 0;
+          var hours = parseFloat(document.getElementById("hours-" + id).value) || 0;
+          var watts = parseFloat(document.getElementById("watts-" + id).value) || 0;
+
+          var dailyKwh = toggle && toggle.checked ? (qty * watts * hours) / 1000 : 0;
+
+          var displayEl = document.getElementById("daily-" + id);
+          if (displayEl) {
+            displayEl.textContent = dailyKwh.toFixed(2) + " kWh/day";
+          }
+
+          updateTab2Total();
+        }
+
+        function updateTab2Total() {
+          var totalWh = 0;
+          APPLIANCE_IDS.forEach(function (id) {
+            var toggle = document.getElementById("toggle-" + id);
+            if (!toggle || !toggle.checked) return;
+            var qty = parseFloat(document.getElementById("qty-" + id).value) || 0;
+            var hours = parseFloat(document.getElementById("hours-" + id).value) || 0;
+            var watts = parseFloat(document.getElementById("watts-" + id).value) || 0;
+            totalWh += qty * watts * hours;
+          });
+
+          var totalKwh = totalWh / 1000;
+          var monthlyKwh = totalKwh * 30;
+
+          document.getElementById("tab2-total-daily").textContent =
+            fmtDec(totalKwh, 2) + " kWh";
+          document.getElementById("tab2-total-monthly").textContent =
+            fmtDec(monthlyKwh, 1) + " kWh";
+        }
+
+        function toggleApplianceInputs(id) {
+          var toggle = document.getElementById("toggle-" + id);
+          var inputs = document.getElementById("inputs-" + id);
+          if (inputs) {
+            if (toggle && toggle.checked) {
+              inputs.classList.add("is-visible");
+            } else {
+              inputs.classList.remove("is-visible");
+            }
+          }
+          updateApplianceDaily(id);
+        }
+
+        function getSystemType() {
+          var checked = document.querySelector("input[name=\"system-type\"]:checked");
+          return checked ? checked.value : "hybrid";
+        }
+
+        function calculate() {
+          var activeTab = getActiveTab();
+          var cityMultiplier = parseFloat(document.getElementById("city-select").value) || 1.0;
+
+          var panelWatt = getNum("panel-watt");
+          var panelPricePerWatt = getNum("panel-price");
+          var inverterCost = getNum("inverter-cost");
+          var installationCost = getNum("installation-cost");
+          var gridUnitRate = getNum("grid-rate");
+
+          if (panelWatt <= 0) {
+            alert("Please enter panel wattage to calculate.");
+            return;
+          }
+          if (panelPricePerWatt <= 0) {
+            alert("Please enter panel price per watt to calculate.");
+            return;
+          }
+          if (gridUnitRate <= 0) {
+            alert("Please enter your grid electricity rate (PKR/unit) to calculate savings.");
+            return;
+          }
+
+          var monthlyUnits;
+          var systemKW;
+
+          if (activeTab === "units") {
+            monthlyUnits = getNum("monthly-units");
+            if (monthlyUnits < 50) {
+              alert("Please enter your average monthly units consumed (minimum 50 kWh).");
+              return;
+            }
+            var effectiveUnits = monthlyUnits / cityMultiplier;
+            systemKW = effectiveUnits / 125;
+            systemKW = Math.ceil(systemKW * 2) / 2;
+          } else {
+            var totalDailyWh = 0;
+            APPLIANCE_IDS.forEach(function (id) {
+              var toggle = document.getElementById("toggle-" + id);
+              if (!toggle || !toggle.checked) return;
+              var qty = parseFloat(document.getElementById("qty-" + id).value) || 0;
+              var hours = parseFloat(document.getElementById("hours-" + id).value) || 0;
+              var watts = parseFloat(document.getElementById("watts-" + id).value) || 0;
+              totalDailyWh += qty * watts * hours;
+            });
+
+            var monthlyKwh = (totalDailyWh * 30) / 1000;
+            monthlyUnits = monthlyKwh;
+
+            if (monthlyUnits <= 0) {
+              alert("Please enable and configure at least one appliance.");
+              return;
+            }
+
+            systemKW = Math.ceil((monthlyKwh / 30 / 5) * 2) / 2;
+          }
+
+          var numberOfPanels = Math.ceil((systemKW * 1000) / panelWatt);
+          var actualSystemKW = (numberOfPanels * panelWatt) / 1000;
+          var monthlyGeneration = actualSystemKW * 125 * cityMultiplier;
+
+          var systemType = getSystemType();
+          var numberOfBatteries = 0;
+          var batteryCostEach = 0;
+
+          if (systemType !== "ongrid") {
+            numberOfBatteries = getNum("num-batteries");
+            batteryCostEach = getNum("battery-cost-each");
+          }
+
+          var panelsCost = numberOfPanels * panelWatt * panelPricePerWatt;
+          var mountingCost = panelsCost * 0.08;
+          var miscCost = (panelsCost + inverterCost + installationCost) * 0.05;
+          var batteriesCost = numberOfBatteries * batteryCostEach;
+          var totalCost =
+            panelsCost + inverterCost + installationCost + mountingCost + miscCost + batteriesCost;
+
+          var monthlySavings = monthlyGeneration * gridUnitRate;
+          var annualSavings = monthlySavings * 12;
+          var paybackMonths = totalCost / monthlySavings;
+          var paybackYears = Math.floor(paybackMonths / 12);
+          var paybackMonthsRem = Math.round(paybackMonths % 12);
+
+          var annualGenBase = monthlyGeneration * 12;
+          var tenYearSavings = 0;
+          var twentyFiveYearSavings = 0;
+
+          for (var year = 1; year <= 25; year++) {
+            var degradedGen = annualGenBase * Math.pow(0.995, year - 1);
+            var yearSavings = degradedGen * gridUnitRate;
+            if (year <= 10) tenYearSavings += yearSavings;
+            twentyFiveYearSavings += yearSavings;
+          }
+
+          var tenYearProfit = tenYearSavings - totalCost;
+          var twentyFiveYearProfit = twentyFiveYearSavings - totalCost;
+          var annualCO2Offset = monthlyGeneration * 12 * 0.5;
+
+          var monthlyBill = getNum("monthly-bill");
+          var currentBill = monthlyBill > 0 ? monthlyBill : monthlyUnits * gridUnitRate;
+          var billAfterSolar = Math.max(0, (monthlyUnits - monthlyGeneration) * gridUnitRate);
+
+          var cityPct = ((cityMultiplier - 1) * 100);
+          var cityFactorStr =
+            "City solar factor applied: " +
+            (cityPct >= 0 ? "+" : "") +
+            cityPct.toFixed(0) + "% (multiplier: " + cityMultiplier + "x)";
+
+          displayResults({
+            systemKW: actualSystemKW,
+            numberOfPanels: numberOfPanels,
+            panelWatt: panelWatt,
+            monthlyGeneration: monthlyGeneration,
+            cityFactorStr: cityFactorStr,
+            panelsCost: panelsCost,
+            mountingCost: mountingCost,
+            miscCost: miscCost,
+            inverterCost: inverterCost,
+            installationCost: installationCost,
+            batteriesCost: batteriesCost,
+            numberOfBatteries: numberOfBatteries,
+            batteryCostEach: batteryCostEach,
+            totalCost: totalCost,
+            monthlySavings: monthlySavings,
+            annualSavings: annualSavings,
+            paybackYears: paybackYears,
+            paybackMonthsRem: paybackMonthsRem,
+            tenYearProfit: tenYearProfit,
+            twentyFiveYearProfit: twentyFiveYearProfit,
+            annualCO2Offset: annualCO2Offset,
+            currentBill: currentBill,
+            billAfterSolar: billAfterSolar,
+            monthlyUnits: monthlyUnits,
+            gridUnitRate: gridUnitRate,
+            panelPricePerWatt: panelPricePerWatt
+          });
+        }
+
+        function displayResults(d) {
+          var section = document.getElementById("results-section");
+          section.classList.remove("hidden");
+
+          // System recommendation
+          document.getElementById("res-system-kw").textContent =
+            fmtDec(d.systemKW, 1) + " kW";
+          document.getElementById("res-num-panels").textContent =
+            d.numberOfPanels + " panels";
+          document.getElementById("res-panel-size").textContent =
+            d.panelWatt + "W each";
+          document.getElementById("res-monthly-gen").textContent =
+            fmtDec(d.monthlyGeneration, 0) + " units estimated";
+          document.getElementById("res-city-factor").textContent = d.cityFactorStr;
+
+          // Cost breakdown
+          document.getElementById("cost-panels").textContent =
+            "PKR " + fmt(d.panelsCost);
+          document.getElementById("cost-panels-desc").textContent =
+            d.numberOfPanels + " panels x " + d.panelWatt + "W x PKR " +
+            d.panelPricePerWatt + "/W";
+          document.getElementById("cost-inverter").textContent =
+            d.inverterCost > 0 ? "PKR " + fmt(d.inverterCost) : "Not entered";
+          document.getElementById("cost-installation").textContent =
+            d.installationCost > 0 ? "PKR " + fmt(d.installationCost) : "Not entered";
+          document.getElementById("cost-mounting").textContent =
+            "PKR " + fmt(d.mountingCost);
+          document.getElementById("cost-misc").textContent =
+            "PKR " + fmt(d.miscCost);
+
+          var battRow = document.getElementById("cost-battery-row");
+          if (d.numberOfBatteries > 0) {
+            battRow.classList.remove("hidden");
+            document.getElementById("cost-batteries").textContent =
+              "PKR " + fmt(d.batteriesCost);
+            document.getElementById("cost-batteries-desc").textContent =
+              d.numberOfBatteries + " x PKR " + fmt(d.batteryCostEach) + " each";
+          } else {
+            battRow.classList.add("hidden");
+          }
+
+          document.getElementById("cost-total").textContent =
+            "PKR " + fmt(d.totalCost);
+
+          // Savings
+          document.getElementById("res-monthly-savings").textContent =
+            "PKR " + fmt(d.monthlySavings);
+          document.getElementById("res-monthly-savings-sub").textContent =
+            fmtDec(d.monthlyGeneration, 0) + " units x PKR " +
+            d.gridUnitRate.toFixed(2) + "/unit";
+          document.getElementById("res-annual-savings").textContent =
+            "PKR " + fmt(d.annualSavings);
+          document.getElementById("res-payback").textContent =
+            d.paybackYears + " Years " + d.paybackMonthsRem + " Months";
+          document.getElementById("res-10yr").textContent =
+            (d.tenYearProfit >= 0 ? "" : "-") + "PKR " + fmt(Math.abs(d.tenYearProfit));
+          document.getElementById("res-25yr").textContent =
+            (d.twentyFiveYearProfit >= 0 ? "" : "-") + "PKR " + fmt(Math.abs(d.twentyFiveYearProfit));
+
+          // What you gain
+          document.getElementById("res-current-bill").textContent =
+            "PKR " + fmt(d.currentBill);
+          document.getElementById("res-bill-after").textContent =
+            "PKR " + fmt(d.billAfterSolar);
+          document.getElementById("res-co2").textContent =
+            fmt(d.annualCO2Offset) + " kg";
+          document.getElementById("res-system-kw2").textContent =
+            fmtDec(d.systemKW, 1);
+
+          // Print date
+          var now = new Date();
+          var dateStr = now.toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric"
+          });
+          var printDateEl = document.getElementById("print-date-el");
+          if (printDateEl) {
+            printDateEl.textContent = "Generated: " + dateStr + " | YourSimpleTools.com";
+          }
+
+          section.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
+        function initSystemCards() {
+          document.querySelectorAll(".system-card").forEach(function (card) {
+            card.addEventListener("click", function () {
+              var radio = card.querySelector("input[type=\"radio\"]");
+              if (radio) {
+                selectSystemCard(radio.value);
+              }
+            });
+
+            card.addEventListener("keydown", function (e) {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                card.click();
+              }
+            });
+          });
+        }
+
+        function initAppliances() {
+          APPLIANCE_IDS.forEach(function (id) {
+            var toggle = document.getElementById("toggle-" + id);
+            if (toggle) {
+              toggle.addEventListener("change", function () {
+                toggleApplianceInputs(id);
+              });
+              // Initialize display for pre-checked appliances
+              if (toggle.checked) {
+                updateApplianceDaily(id);
+              }
+            }
+
+            ["qty-", "hours-", "watts-"].forEach(function (prefix) {
+              var input = document.getElementById(prefix + id);
+              if (input) {
+                input.addEventListener("input", function () {
+                  updateApplianceDaily(id);
+                });
+              }
+            });
+          });
+
+          // Initial total update
+          updateTab2Total();
+        }
+
+        function initFaq() {
+          document.querySelectorAll(".faq-question").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+              var item = btn.closest(".faq-item");
+              var isOpen = item.classList.contains("is-open");
+              item.classList.toggle("is-open");
+              btn.setAttribute("aria-expanded", isOpen ? "false" : "true");
+            });
+          });
+        }
+
+        function init() {
+          // Tab buttons
+          document.getElementById("btn-tab-units").addEventListener("click", function () {
+            switchTab("units");
+          });
+          document.getElementById("btn-tab-appliances").addEventListener("click", function () {
+            switchTab("appliances");
+          });
+
+          // Effective rate auto-calculation
+          document.getElementById("monthly-units").addEventListener("input", updateEffectiveRate);
+          document.getElementById("monthly-bill").addEventListener("input", updateEffectiveRate);
+
+          // Mark grid-rate as manually edited when user types in it
+          document.getElementById("grid-rate").addEventListener("input", function () {
+            this.dataset.manuallyEdited = "1";
+          });
+
+          // System type radio changes via labels/inputs
+          document.querySelectorAll("input[name=\"system-type\"]").forEach(function (radio) {
+            radio.addEventListener("change", function () {
+              selectSystemCard(radio.value);
+            });
+          });
+
+          // System cards
+          initSystemCards();
+
+          // Set hybrid as default selected visually
+          selectSystemCard("hybrid");
+
+          // Appliances
+          initAppliances();
+
+          // FAQ
+          initFaq();
+
+          // Calculate button
+          document.getElementById("calc-btn-1").addEventListener("click", calculate);
+
+          // Print button (added after results appear)
+          document.getElementById("print-btn").addEventListener("click", function () {
+            window.print();
+          });
+
+          // Mobile nav toggle (same pattern as main.js)
+          var mobileToggle = document.querySelector(".nav-mobile-toggle");
+          var navLinks = document.querySelector(".nav-links");
+          if (mobileToggle && navLinks) {
+            mobileToggle.addEventListener("click", function () {
+              var expanded = mobileToggle.getAttribute("aria-expanded") === "true";
+              mobileToggle.setAttribute("aria-expanded", String(!expanded));
+              navLinks.classList.toggle("is-open");
+            });
+          }
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", init);
+        } else {
+          init();
+        }
+      })();
+    </script>
+
+    <script>
+      lucide.createIcons();
+    </script>
+  </body>
+</html>
