@@ -278,6 +278,61 @@
         display: block;
       }
 
+      /* Panel price mode toggle */
+      .price-mode-toggle {
+        display: flex;
+        border: 0.0625rem solid var(--color-border);
+        border-radius: var(--border-radius-btn);
+        overflow: hidden;
+        margin-bottom: 0.5rem;
+      }
+
+      .price-mode-option {
+        flex: 1;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .price-mode-option input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+        pointer-events: none;
+      }
+
+      .price-mode-option span {
+        display: block;
+        padding: 0.5rem 0.75rem;
+        text-align: center;
+        font-size: var(--font-size-small);
+        font-weight: 500;
+        color: var(--color-text-secondary);
+        background: var(--color-white);
+        transition: background-color var(--transition-base), color var(--transition-base);
+        border-right: 0.0625rem solid var(--color-border);
+        line-height: 1.4;
+      }
+
+      .price-mode-option:last-child span {
+        border-right: none;
+      }
+
+      .price-mode-option input[type="radio"]:checked + span {
+        background: var(--color-accent);
+        color: var(--color-white);
+      }
+
+      .price-mode-option:hover span {
+        background: var(--color-accent-light);
+        color: var(--color-accent);
+      }
+
+      .price-mode-option input[type="radio"]:checked + span:hover {
+        background: var(--color-accent);
+        color: var(--color-white);
+      }
+
       /* Utility */
       .print-header {
         display: none;
@@ -986,18 +1041,40 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="form-label" for="panel-price">Panel Price per Watt (PKR)</label>
+                  <label class="form-label">Panel Price</label>
+                  <div class="price-mode-toggle" role="group" aria-label="Panel price entry mode">
+                    <label class="price-mode-option">
+                      <input
+                        type="radio"
+                        id="price-mode-watt"
+                        name="price-mode"
+                        value="watt"
+                        checked
+                      />
+                      <span>Price per Watt (PKR/W)</span>
+                    </label>
+                    <label class="price-mode-option">
+                      <input
+                        type="radio"
+                        id="price-mode-panel"
+                        name="price-mode"
+                        value="panel"
+                      />
+                      <span>Price per Panel (PKR/panel)</span>
+                    </label>
+                  </div>
                   <input
                     type="number"
                     id="panel-price"
                     class="form-input"
                     placeholder="e.g. 32"
                     min="1"
-                    aria-describedby="panel-price-hint"
+                    aria-describedby="panel-price-hint panel-price-live"
                   />
                   <p id="panel-price-hint" class="text-small text-muted mt-4">
-                    Current market range: PKR 28-45 per watt depending on brand and type.
+                    Typical range: PKR 28-45 per watt
                   </p>
+                  <div class="auto-display mt-8 hidden" id="panel-price-live" aria-live="polite"></div>
                 </div>
 
                 <div class="form-group">
@@ -1027,6 +1104,36 @@
                   />
                   <p id="installation-cost-hint" class="text-small text-muted mt-4">
                     Typical range PKR 35,000 to PKR 60,000 depending on roof type.
+                  </p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="mounting-cost">Mounting Structure Cost (PKR)</label>
+                  <input
+                    type="number"
+                    id="mounting-cost"
+                    class="form-input"
+                    placeholder="e.g. 20000"
+                    min="0"
+                    aria-describedby="mounting-cost-hint"
+                  />
+                  <p id="mounting-cost-hint" class="text-small text-muted mt-4">
+                    Optional. Ask your dealer. Typical range: PKR 15,000-40,000
+                  </p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="misc-cost">Miscellaneous + Transport (PKR)</label>
+                  <input
+                    type="number"
+                    id="misc-cost"
+                    class="form-input"
+                    placeholder="e.g. 15000"
+                    min="0"
+                    aria-describedby="misc-cost-hint"
+                  />
+                  <p id="misc-cost-hint" class="text-small text-muted mt-4">
+                    Optional. Wire clips, conduit pipes, transport. Typical: PKR 10,000-25,000
                   </p>
                 </div>
 
@@ -1125,26 +1232,41 @@
 
                 <div class="form-group">
                   <label class="form-label" for="battery-type">Battery Type</label>
-                  <select id="battery-type" class="form-select">
-                    <option value="tubular">200Ah Tall Tubular (Lead Acid)</option>
-                    <option value="li100">100Ah Lithium (LiFePO4)</option>
-                    <option value="li200">200Ah Lithium (LiFePO4)</option>
+                  <select id="battery-type" class="form-select" aria-describedby="battery-type-hint">
+                    <option value="lithium">Lithium (LiFePO4) - Recommended</option>
+                    <option value="leadacid">Lead Acid (Tall Tubular) - Budget option</option>
+                    <option value="agm">AGM / VRLA</option>
                   </select>
+                  <p id="battery-type-hint" class="text-small text-muted mt-4">
+                    Lithium lasts longer, charges faster, and performs better. Lead Acid is the budget choice.
+                  </p>
                 </div>
 
                 <div class="form-group">
-                  <label class="form-label" for="battery-cost-each">Price Per Battery (PKR)</label>
+                  <label class="form-label" for="battery-capacity">Battery Capacity</label>
+                  <select id="battery-capacity" class="form-select" aria-describedby="battery-capacity-hint">
+                    <option value="2.5">2.5 kWh (e.g. Pylon, Dyness, Felicity)</option>
+                    <option value="5">5 kWh (e.g. Pylon US5000, Felicity 5kWh)</option>
+                    <option value="7.5">7.5 kWh</option>
+                    <option value="10">10 kWh (e.g. Solis, Huawei LUNA2000)</option>
+                    <option value="15">15 kWh</option>
+                    <option value="custom">Custom (enter kWh manually)</option>
+                  </select>
+                  <p id="battery-capacity-hint" class="text-small text-muted mt-4">
+                    Select a standard size or choose Custom to enter your own.
+                  </p>
+                </div>
+
+                <div class="form-group hidden" id="battery-custom-group">
+                  <label class="form-label" for="battery-custom-kwh">Enter Battery Capacity (kWh)</label>
                   <input
                     type="number"
-                    id="battery-cost-each"
+                    id="battery-custom-kwh"
                     class="form-input"
-                    placeholder="e.g. 80000"
-                    min="0"
-                    aria-describedby="battery-cost-hint"
+                    placeholder="e.g. 5"
+                    min="0.1"
+                    step="0.1"
                   />
-                  <p id="battery-cost-hint" class="text-small text-muted mt-4">
-                    Tall Tubular 200Ah: approx PKR 70,000-90,000. Lithium 200Ah: approx PKR 180,000-250,000.
-                  </p>
                 </div>
 
                 <div class="form-group">
@@ -1155,14 +1277,44 @@
                     class="form-input"
                     placeholder="e.g. 2"
                     min="1"
-                    aria-describedby="num-batteries-hint"
                   />
-                  <p id="num-batteries-hint" class="text-small text-muted mt-4">
-                    For 4-6 hours backup on average home load: 2-4 batteries.
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="battery-cost-each">Price Per Battery (PKR)</label>
+                  <input
+                    type="number"
+                    id="battery-cost-each"
+                    class="form-input"
+                    placeholder="e.g. 200000"
+                    min="0"
+                    aria-describedby="battery-cost-hint"
+                  />
+                  <p id="battery-cost-hint" class="text-small text-muted mt-4">
+                    Ask your dealer for exact price. Typical 2026 prices:
+                    Lithium 5kWh: PKR 180,000-280,000 |
+                    Lithium 2.5kWh: PKR 100,000-150,000 |
+                    Tall Tubular 200Ah: PKR 70,000-90,000
                   </p>
                 </div>
 
               </div>
+
+              <div class="auto-display mt-16 hidden" id="battery-bank-display" aria-live="polite">
+                <div class="flex-center gap-8">
+                  <i data-lucide="battery-charging" aria-hidden="true"></i>
+                  <strong>Total Battery Bank: <span id="batt-total-kwh">--</span> kWh</strong>
+                </div>
+                <p class="mt-8 text-small">
+                  Estimated backup at average home load (500W):
+                  <strong><span id="batt-backup-avg">--</span> hours</strong>
+                </p>
+                <p class="mt-4 text-small">
+                  Estimated backup at heavy load (1500W):
+                  <strong><span id="batt-backup-heavy">--</span> hours</strong>
+                </p>
+              </div>
+
             </div>
 
             <!-- Calculate Button -->
@@ -1221,6 +1373,11 @@
                   </div>
                 </div>
 
+                <div class="result-card result-card--accent mt-12 hidden" id="res-battery-card">
+                  <p class="result-label">Battery Bank</p>
+                  <p class="result-value" id="res-battery-bank">--</p>
+                </div>
+
                 <div class="auto-display mt-12">
                   <span id="res-city-factor">City solar factor applied</span>
                 </div>
@@ -1248,25 +1405,19 @@
                   <div class="cost-row-label">Installation + Wiring</div>
                   <span class="cost-row-value" id="cost-installation">--</span>
                 </div>
-                <div class="cost-row" id="cost-battery-row">
+                <div class="cost-row hidden" id="cost-battery-row">
                   <div class="cost-row-label">
                     Batteries
                     <span class="cost-row-sub" id="cost-batteries-desc">--</span>
                   </div>
                   <span class="cost-row-value" id="cost-batteries">--</span>
                 </div>
-                <div class="cost-row">
-                  <div class="cost-row-label">
-                    Mounting Structure
-                    <span class="cost-row-sub">Estimated at 8% of panel cost</span>
-                  </div>
+                <div class="cost-row" id="cost-mounting-row">
+                  <div class="cost-row-label">Mounting Structure</div>
                   <span class="cost-row-value" id="cost-mounting">--</span>
                 </div>
-                <div class="cost-row">
-                  <div class="cost-row-label">
-                    Miscellaneous + Transport
-                    <span class="cost-row-sub">Estimated at 5% of subtotal</span>
-                  </div>
+                <div class="cost-row" id="cost-misc-row">
+                  <div class="cost-row-label">Miscellaneous + Transport</div>
                   <span class="cost-row-value" id="cost-misc">--</span>
                 </div>
 
@@ -1611,6 +1762,105 @@
           }
         }
 
+        var LITHIUM_CAPACITIES = [
+          { value: "2.5",    label: "2.5 kWh (e.g. Pylon, Dyness, Felicity)" },
+          { value: "5",      label: "5 kWh (e.g. Pylon US5000, Felicity 5kWh)" },
+          { value: "7.5",    label: "7.5 kWh" },
+          { value: "10",     label: "10 kWh (e.g. Solis, Huawei LUNA2000)" },
+          { value: "15",     label: "15 kWh" },
+          { value: "custom", label: "Custom (enter kWh manually)" }
+        ];
+
+        var LEADACID_CAPACITIES = [
+          { value: "1.44",   label: "1.44 kWh (150Ah / 12V)" },
+          { value: "1.92",   label: "1.92 kWh (200Ah / 12V)" },
+          { value: "2.4",    label: "2.4 kWh (250Ah / 12V)" },
+          { value: "custom", label: "Custom (enter kWh manually)" }
+        ];
+
+        var AGM_CAPACITIES = [
+          { value: "1.2",    label: "1.2 kWh (100Ah / 12V)" },
+          { value: "2.4",    label: "2.4 kWh (200Ah / 12V)" },
+          { value: "custom", label: "Custom (enter kWh manually)" }
+        ];
+
+        function getBatteryCapacityOptions(type) {
+          if (type === "leadacid") return LEADACID_CAPACITIES;
+          if (type === "agm") return AGM_CAPACITIES;
+          return LITHIUM_CAPACITIES;
+        }
+
+        function refreshBatteryCapacitySelect() {
+          var typeEl = document.getElementById("battery-type");
+          var capEl = document.getElementById("battery-capacity");
+          if (!typeEl || !capEl) return;
+
+          var options = getBatteryCapacityOptions(typeEl.value);
+          var prevVal = capEl.value;
+
+          capEl.innerHTML = "";
+          options.forEach(function (opt) {
+            var el = document.createElement("option");
+            el.value = opt.value;
+            el.textContent = opt.label;
+            capEl.appendChild(el);
+          });
+
+          // Restore previous selection if still valid
+          var stillValid = options.some(function (o) { return o.value === prevVal; });
+          if (stillValid) capEl.value = prevVal;
+
+          onBatteryCapacityChange();
+        }
+
+        function onBatteryCapacityChange() {
+          var capEl = document.getElementById("battery-capacity");
+          var customGroup = document.getElementById("battery-custom-group");
+          if (!capEl || !customGroup) return;
+
+          if (capEl.value === "custom") {
+            customGroup.classList.remove("hidden");
+          } else {
+            customGroup.classList.add("hidden");
+          }
+
+          updateBatteryBankDisplay();
+        }
+
+        function getBatteryCapacityKwh() {
+          var capEl = document.getElementById("battery-capacity");
+          if (!capEl) return 0;
+          if (capEl.value === "custom") {
+            return getNum("battery-custom-kwh");
+          }
+          return parseFloat(capEl.value) || 0;
+        }
+
+        function updateBatteryBankDisplay() {
+          var numBatt = getNum("num-batteries");
+          var capKwh = getBatteryCapacityKwh();
+          var displayEl = document.getElementById("battery-bank-display");
+
+          if (!displayEl) return;
+
+          if (numBatt > 0 && capKwh > 0) {
+            var totalKwh = numBatt * capKwh;
+            var backupAvg = totalKwh / 0.5;
+            var backupHeavy = totalKwh / 1.5;
+
+            document.getElementById("batt-total-kwh").textContent =
+              fmtDec(totalKwh, 1);
+            document.getElementById("batt-backup-avg").textContent =
+              fmtDec(backupAvg, 1);
+            document.getElementById("batt-backup-heavy").textContent =
+              fmtDec(backupHeavy, 1);
+
+            displayEl.classList.remove("hidden");
+          } else {
+            displayEl.classList.add("hidden");
+          }
+        }
+
         function updateBatterySection() {
           var checked = document.querySelector("input[name=\"system-type\"]:checked");
           var batterySection = document.getElementById("battery-section");
@@ -1690,12 +1940,66 @@
           return checked ? checked.value : "hybrid";
         }
 
+        function getPanelPricePerWatt() {
+          var modeEl = document.querySelector("input[name=\"price-mode\"]:checked");
+          var priceInput = parseFloat(document.getElementById("panel-price").value) || 0;
+          if (modeEl && modeEl.value === "panel") {
+            var panelWatt = getNum("panel-watt");
+            return panelWatt > 0 ? priceInput / panelWatt : 0;
+          }
+          return priceInput;
+        }
+
+        function updatePanelPriceLive() {
+          var modeEl = document.querySelector("input[name=\"price-mode\"]:checked");
+          var priceInput = parseFloat(document.getElementById("panel-price").value) || 0;
+          var panelWatt = getNum("panel-watt");
+          var liveEl = document.getElementById("panel-price-live");
+          var hintEl = document.getElementById("panel-price-hint");
+
+          if (!modeEl || !liveEl || !hintEl) return;
+
+          if (modeEl.value === "panel") {
+            hintEl.textContent = "Price for one complete panel";
+            if (priceInput > 0 && panelWatt > 0) {
+              var perWatt = priceInput / panelWatt;
+              liveEl.innerHTML = "= PKR <strong>" + perWatt.toFixed(2) + "</strong> per watt";
+              liveEl.classList.remove("hidden");
+            } else {
+              liveEl.classList.add("hidden");
+            }
+          } else {
+            hintEl.textContent = "Typical range: PKR 28-45 per watt";
+            if (priceInput > 0 && panelWatt > 0) {
+              var perPanel = Math.round(priceInput * panelWatt);
+              liveEl.innerHTML = "= PKR <strong>" + perPanel.toLocaleString("en-PK") + "</strong> per panel";
+              liveEl.classList.remove("hidden");
+            } else {
+              liveEl.classList.add("hidden");
+            }
+          }
+        }
+
+        function onPriceModeChange() {
+          var modeEl = document.querySelector("input[name=\"price-mode\"]:checked");
+          var priceInput = document.getElementById("panel-price");
+          if (!modeEl) return;
+
+          priceInput.value = "";
+          if (modeEl.value === "panel") {
+            priceInput.placeholder = "e.g. 19000";
+          } else {
+            priceInput.placeholder = "e.g. 32";
+          }
+          document.getElementById("panel-price-live").classList.add("hidden");
+        }
+
         function calculate() {
           var activeTab = getActiveTab();
           var cityMultiplier = parseFloat(document.getElementById("city-select").value) || 1.0;
 
           var panelWatt = getNum("panel-watt");
-          var panelPricePerWatt = getNum("panel-price");
+          var panelPricePerWatt = getPanelPricePerWatt();
           var inverterCost = getNum("inverter-cost");
           var installationCost = getNum("installation-cost");
           var gridUnitRate = getNum("grid-rate");
@@ -1705,7 +2009,7 @@
             return;
           }
           if (panelPricePerWatt <= 0) {
-            alert("Please enter panel price per watt to calculate.");
+            alert("Please enter the panel price to calculate.");
             return;
           }
           if (gridUnitRate <= 0) {
@@ -1754,15 +2058,17 @@
           var systemType = getSystemType();
           var numberOfBatteries = 0;
           var batteryCostEach = 0;
+          var batteryCapacityKwh = 0;
 
           if (systemType !== "ongrid") {
             numberOfBatteries = getNum("num-batteries");
             batteryCostEach = getNum("battery-cost-each");
+            batteryCapacityKwh = getBatteryCapacityKwh();
           }
 
           var panelsCost = numberOfPanels * panelWatt * panelPricePerWatt;
-          var mountingCost = panelsCost * 0.08;
-          var miscCost = (panelsCost + inverterCost + installationCost) * 0.05;
+          var mountingCost = getNum("mounting-cost");
+          var miscCost = getNum("misc-cost");
           var batteriesCost = numberOfBatteries * batteryCostEach;
           var totalCost =
             panelsCost + inverterCost + installationCost + mountingCost + miscCost + batteriesCost;
@@ -1812,6 +2118,7 @@
             batteriesCost: batteriesCost,
             numberOfBatteries: numberOfBatteries,
             batteryCostEach: batteryCostEach,
+            batteryCapacityKwh: batteryCapacityKwh,
             totalCost: totalCost,
             monthlySavings: monthlySavings,
             annualSavings: annualSavings,
@@ -1848,25 +2155,53 @@
             "PKR " + fmt(d.panelsCost);
           document.getElementById("cost-panels-desc").textContent =
             d.numberOfPanels + " panels x " + d.panelWatt + "W x PKR " +
-            d.panelPricePerWatt + "/W";
+            d.panelPricePerWatt.toFixed(2) + "/W";
           document.getElementById("cost-inverter").textContent =
             d.inverterCost > 0 ? "PKR " + fmt(d.inverterCost) : "Not entered";
           document.getElementById("cost-installation").textContent =
             d.installationCost > 0 ? "PKR " + fmt(d.installationCost) : "Not entered";
-          document.getElementById("cost-mounting").textContent =
-            "PKR " + fmt(d.mountingCost);
-          document.getElementById("cost-misc").textContent =
-            "PKR " + fmt(d.miscCost);
+          var mountingRow = document.getElementById("cost-mounting-row");
+          if (d.mountingCost > 0) {
+            mountingRow.classList.remove("hidden");
+            document.getElementById("cost-mounting").textContent =
+              "PKR " + fmt(d.mountingCost);
+          } else {
+            mountingRow.classList.add("hidden");
+          }
+
+          var miscRow = document.getElementById("cost-misc-row");
+          if (d.miscCost > 0) {
+            miscRow.classList.remove("hidden");
+            document.getElementById("cost-misc").textContent =
+              "PKR " + fmt(d.miscCost);
+          } else {
+            miscRow.classList.add("hidden");
+          }
 
           var battRow = document.getElementById("cost-battery-row");
-          if (d.numberOfBatteries > 0) {
+          var resBattCard = document.getElementById("res-battery-card");
+
+          if (d.numberOfBatteries > 0 && d.batteryCostEach > 0) {
             battRow.classList.remove("hidden");
             document.getElementById("cost-batteries").textContent =
               "PKR " + fmt(d.batteriesCost);
-            document.getElementById("cost-batteries-desc").textContent =
-              d.numberOfBatteries + " x PKR " + fmt(d.batteryCostEach) + " each";
+            var capLabel = d.batteryCapacityKwh > 0
+              ? d.numberOfBatteries + " x " + fmtDec(d.batteryCapacityKwh, 1) + " kWh x PKR " + fmt(d.batteryCostEach) + " each"
+              : d.numberOfBatteries + " x PKR " + fmt(d.batteryCostEach) + " each";
+            document.getElementById("cost-batteries-desc").textContent = capLabel;
           } else {
             battRow.classList.add("hidden");
+          }
+
+          if (d.numberOfBatteries > 0 && d.batteryCapacityKwh > 0) {
+            var totalBankKwh = d.numberOfBatteries * d.batteryCapacityKwh;
+            resBattCard.classList.remove("hidden");
+            document.getElementById("res-battery-bank").textContent =
+              fmtDec(totalBankKwh, 1) + " kWh total (" +
+              d.numberOfBatteries + " batteries x " +
+              fmtDec(d.batteryCapacityKwh, 1) + " kWh each)";
+          } else {
+            resBattCard.classList.add("hidden");
           }
 
           document.getElementById("cost-total").textContent =
@@ -1985,6 +2320,21 @@
           document.getElementById("grid-rate").addEventListener("input", function () {
             this.dataset.manuallyEdited = "1";
           });
+
+          // Battery type and capacity selectors
+          document.getElementById("battery-type").addEventListener("change", refreshBatteryCapacitySelect);
+          document.getElementById("battery-capacity").addEventListener("change", onBatteryCapacityChange);
+          document.getElementById("battery-custom-kwh").addEventListener("input", updateBatteryBankDisplay);
+          document.getElementById("num-batteries").addEventListener("input", updateBatteryBankDisplay);
+
+          // Panel price mode toggle
+          document.querySelectorAll("input[name=\"price-mode\"]").forEach(function (radio) {
+            radio.addEventListener("change", onPriceModeChange);
+          });
+
+          // Live panel price converter
+          document.getElementById("panel-price").addEventListener("input", updatePanelPriceLive);
+          document.getElementById("panel-watt").addEventListener("input", updatePanelPriceLive);
 
           // System type radio changes via labels/inputs
           document.querySelectorAll("input[name=\"system-type\"]").forEach(function (radio) {
