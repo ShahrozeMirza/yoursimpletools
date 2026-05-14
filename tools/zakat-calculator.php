@@ -505,13 +505,11 @@
                 </div>
                 <div class="result-card">
                   <p class="result-label">Nisaab Status</p>
-                  <div id="nisaab-status">
-                    <span class="badge-none">Enter silver price</span>
-                  </div>
+                  <div id="nisaab-status"></div>
                 </div>
               </div>
 
-              <div id="zakat-amount-card" class="zakat-amount-card hidden">
+              <div id="zakat-amount-card" class="zakat-amount-card">
                 <div>
                   <p class="zakat-amount-label">Zakat Due</p>
                   <p class="zakat-amount-sub">2.5% of Net Zakatable Wealth</p>
@@ -722,25 +720,18 @@
             sym + fmt(goldNisaab);
 
           var statusEl = document.getElementById("nisaab-status");
-          if (silverNisaab === 0) {
-            statusEl.innerHTML =
-              '<span class="badge-none">Enter silver price</span>';
+          if (silverPriceRaw === 0 || totalAssets === 0) {
+            statusEl.innerHTML = "";
           } else if (aboveNisaab) {
             statusEl.innerHTML =
               '<span class="badge-due">Zakat is Due</span>';
           } else {
             statusEl.innerHTML =
-              '<span class="badge-none">Below Nisaab. No Zakat Due.</span>';
+              '<span class="badge-none">Below Nisaab - No Zakat Due</span>';
           }
 
-          var zakatCard = document.getElementById("zakat-amount-card");
-          var zakatAmountEl = document.getElementById("zakat-amount-big");
-          if (aboveNisaab) {
-            zakatCard.classList.remove("hidden");
-            zakatAmountEl.textContent = sym + fmt(zakatDue);
-          } else {
-            zakatCard.classList.add("hidden");
-          }
+          document.getElementById("zakat-amount-big").textContent =
+            sym + fmt(zakatDue);
         }
 
         function onCurrencyChange() {
@@ -790,15 +781,13 @@
           document.getElementById("result-silver-nisaab").textContent = zero;
           document.getElementById("result-gold-nisaab").textContent = zero;
 
-          // Reset nisaab status badge
-          document.getElementById("nisaab-status").innerHTML =
-            '<span class="badge-none">Enter silver price</span>';
+          // Reset nisaab status badge to empty
+          document.getElementById("nisaab-status").innerHTML = "";
 
-          // Reset and hide zakat due card
+          // Reset zakat due amount
           document.getElementById("zakat-amount-big").textContent = zero;
           document.getElementById("zakat-amount-sub").textContent =
             "2.5% of Net Zakatable Wealth";
-          document.getElementById("zakat-amount-card").classList.add("hidden");
         }
 
         function init() {
