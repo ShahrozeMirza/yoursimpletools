@@ -22,12 +22,16 @@ jobs:
         run: |
           ssh-keyscan -p 65002 145.79.25.59 >> ~/.ssh/known_hosts
 
+      - name: Find public_html path
+        run: |
+          ssh -p 65002 u728134842@145.79.25.59 "find / -name 'public_html' -type d 2>/dev/null | head -5"
+
       - name: Deploy via Rsync
         run: |
           rsync -avz --delete \
           -e "ssh -p 65002" \
           ./ \
-          u728134842@145.79.25.59:/home/u728134842/public_html/ \
+          u728134842@145.79.25.59:/home/u728134842/domains/yoursimpletools.com/public_html/ \
           --exclude='.git' \
           --exclude='.github' \
           --exclude='*.md' \
