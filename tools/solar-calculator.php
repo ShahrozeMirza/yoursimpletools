@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Solar System Calculator Pakistan - Panels, Cost &amp; Savings | YourSimpleTools</title>
-    <meta
-      name="description"
-      content="Calculate how many solar panels you need in Pakistan. Enter your panel wattage, units consumed, and city to get accurate system size, cost estimate, and monthly savings. Free tool."
-    />
-    <meta
-      name="keywords"
-      content="solar calculator pakistan, how many solar panels do i need, solar system size calculator, solar cost estimator pakistan, solar plates calculator pakistan"
-    />
-    <link rel="stylesheet" href="../css/style.css" />
-    <script src="https://unpkg.com/lucide@latest"></script>
+<?php include '../includes/head.php'; ?>
+<title>Solar System Calculator Pakistan - Panels Cost and Savings | YourSimpleTools</title>
+<meta name="description" content="Calculate how many solar panels you need in Pakistan. Estimate system size, cost, and payback period. Free solar calculator." />
     <style>
       /* Solar calculator tool-specific styles */
       .solar-tabs {
@@ -438,28 +425,7 @@
         }
       }
     </style>
-  </head>
-  <body>
-    <nav class="nav" aria-label="Primary">
-      <div class="nav-inner">
-        <a href="../index.html" class="nav-logo">YourSimpleTools</a>
-        <ul id="primary-navigation" class="nav-links">
-          <li><a href="../index.html#popular-tools">Tools</a></li>
-          <li><a href="../index.html#categories">Categories</a></li>
-          <li><a href="../about.html">About</a></li>
-        </ul>
-        <button type="button" class="nav-cta">Try a Tool</button>
-        <button
-          type="button"
-          class="nav-mobile-toggle"
-          aria-expanded="false"
-          aria-controls="primary-navigation"
-          aria-label="Open menu"
-        >
-          <i data-lucide="menu" aria-hidden="true"></i>
-        </button>
-      </div>
-    </nav>
+<?php include '../includes/nav.php'; ?>
 
     <main>
       <div class="tool-page">
@@ -1661,36 +1627,7 @@
       <!-- end tool-page -->
     </main>
 
-    <footer class="footer">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <a href="../index.html" class="footer-logo">YourSimpleTools</a>
-          <p class="footer-tagline">
-            Simple, reliable tools for work and life - always free.
-          </p>
-        </div>
-        <div>
-          <p class="footer-col-title">Explore</p>
-          <ul class="footer-links">
-            <li><a href="../index.html#popular-tools">All tools</a></li>
-            <li><a href="../index.html#categories">Categories</a></li>
-            <li><a href="../about.html">About</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="footer-col-title">Legal</p>
-          <ul class="footer-links">
-            <li><a href="../privacy.html">Privacy</a></li>
-            <li><a href="../terms.html">Terms</a></li>
-            <li><a href="../contact.html">Contact</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p class="footer-copy">&copy; 2026 YourSimpleTools. All rights reserved.</p>
-      </div>
-    </footer>
-
+<?php include '../includes/footer.php'; ?>
     <script>
       (function () {
         "use strict";
@@ -2383,8 +2320,7 @@
       })();
     </script>
 
-    <script>
-      lucide.createIcons();
-    </script>
+    <script>lucide.createIcons();</script>
+    <script src="../js/main.js"></script>
   </body>
 </html>

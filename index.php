@@ -1,41 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>YourSimpleTools — Free Online Tools for Everyone</title>
-    <meta
-      name="description"
-      content="Free online tools for writing, SEO, development, business and productivity. No signup required."
-    />
-    <meta
-      name="keywords"
-      content="free online tools, word counter, password generator, invoice generator"
-    />
-    <link rel="stylesheet" href="css/style.css" />
-    <script src="https://unpkg.com/lucide@latest"></script>
-  </head>
-  <body>
-    <nav class="nav" aria-label="Primary">
-      <div class="nav-inner">
-        <a href="index.html" class="nav-logo">YourSimpleTools</a>
-        <ul id="primary-navigation" class="nav-links">
-          <li><a href="#popular-tools">Tools</a></li>
-          <li><a href="#categories">Categories</a></li>
-          <li><a href="about.html">About</a></li>
-        </ul>
-        <button type="button" class="nav-cta">Try a Tool</button>
-        <button
-          type="button"
-          class="nav-mobile-toggle"
-          aria-expanded="false"
-          aria-controls="primary-navigation"
-          aria-label="Open menu"
-        >
-          <i data-lucide="menu" aria-hidden="true"></i>
-        </button>
-      </div>
-    </nav>
+<?php include 'includes/head.php'; ?>
+<title>YourSimpleTools - Free Online Tools for Everyone</title>
+<meta name="description" content="Free online tools for writing, SEO, development, business and productivity. No signup required." />
+<meta name="keywords" content="free online tools, word counter, password generator, invoice generator" />
+<?php include 'includes/nav.php'; ?>
 
     <main>
       <section class="hero" aria-labelledby="hero-heading">
@@ -191,36 +158,8 @@
       </section>
     </main>
 
-    <footer class="footer">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <a href="index.html" class="footer-logo">YourSimpleTools</a>
-          <p class="footer-tagline">
-            Simple, reliable tools for work and life — always free.
-          </p>
-        </div>
-        <div>
-          <p class="footer-col-title">Explore</p>
-          <ul class="footer-links">
-            <li><a href="#popular-tools">All tools</a></li>
-            <li><a href="#categories">Categories</a></li>
-            <li><a href="about.html">About</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="footer-col-title">Legal</p>
-          <ul class="footer-links">
-            <li><a href="privacy.html">Privacy</a></li>
-            <li><a href="terms.html">Terms</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p class="footer-copy">© 2026 YourSimpleTools. All rights reserved.</p>
-      </div>
-    </footer>
-
+<?php include 'includes/footer.php'; ?>
+    <script>lucide.createIcons();</script>
     <script src="js/main.js"></script>
   </body>
 </html>

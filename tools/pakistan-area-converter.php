@@ -1,41 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pakistan Area Converter - Marla Kanal Square Feet Gaz | YourSimpleTools</title>
-    <meta
-      name="description"
-      content="Convert between Marla, Kanal, Square Feet, Square Yards (Gaz), and Acre instantly. Supports Lahore/LDA (225 sq ft) and Standard Punjab (272.25 sq ft) Marla standards. Free Pakistan property calculator."
-    />
-    <meta
-      name="keywords"
-      content="marla to square feet, kanal to square feet, pakistan area converter, marla calculator, gaz to square feet, plot size converter pakistan"
-    />
-    <link rel="stylesheet" href="../css/style.css" />
-    <script src="https://unpkg.com/lucide@latest"></script>
-  </head>
-  <body>
-    <nav class="nav" aria-label="Primary">
-      <div class="nav-inner">
-        <a href="../index.html" class="nav-logo">YourSimpleTools</a>
-        <ul id="primary-navigation" class="nav-links">
-          <li><a href="../index.html#popular-tools">Tools</a></li>
-          <li><a href="../index.html#categories">Categories</a></li>
-          <li><a href="../about.html">About</a></li>
-        </ul>
-        <button type="button" class="nav-cta">Try a Tool</button>
-        <button
-          type="button"
-          class="nav-mobile-toggle"
-          aria-expanded="false"
-          aria-controls="primary-navigation"
-          aria-label="Open menu"
-        >
-          <i data-lucide="menu" aria-hidden="true"></i>
-        </button>
-      </div>
-    </nav>
+<?php include '../includes/head.php'; ?>
+<title>Pakistan Area Converter - Marla Kanal Square Feet Gaz | YourSimpleTools</title>
+<meta name="description" content="Convert between Marla, Kanal, Square Feet, Square Yards and Acre. Supports Lahore LDA and Standard Punjab standards. Free Pakistan property calculator." />
+<?php include '../includes/nav.php'; ?>
 
     <main>
       <div class="tool-page">
@@ -444,36 +410,7 @@
       </div>
     </main>
 
-    <footer class="footer">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <a href="../index.html" class="footer-logo">YourSimpleTools</a>
-          <p class="footer-tagline">Simple, reliable tools for work and life - always free.</p>
-        </div>
-        <div>
-          <p class="footer-col-title">Explore</p>
-          <ul class="footer-links">
-            <li><a href="../index.html#popular-tools">All tools</a></li>
-            <li><a href="../index.html#categories">Categories</a></li>
-            <li><a href="../about.html">About</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="footer-col-title">Legal</p>
-          <ul class="footer-links">
-            <li><a href="../privacy.html">Privacy</a></li>
-            <li><a href="../terms.html">Terms</a></li>
-            <li><a href="../contact.html">Contact</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p class="footer-copy">&copy; 2026 YourSimpleTools. All rights reserved.</p>
-      </div>
-    </footer>
-
-    <script src="../js/main.js"></script>
-
+<?php include '../includes/footer.php'; ?>
     <script>
       (function () {
         // Conversion constants
@@ -729,9 +666,7 @@
         }
       })();
     </script>
-
-    <script>
-      lucide.createIcons();
-    </script>
+    <script>lucide.createIcons();</script>
+    <script src="../js/main.js"></script>
   </body>
 </html>

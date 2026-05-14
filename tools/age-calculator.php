@@ -1,41 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Age Calculator - Calculate Your Exact Age | YourSimpleTools</title>
-    <meta
-      name="description"
-      content="Calculate your exact age in years, months, days, hours and minutes. Find days until your next birthday. Free online age calculator."
-    />
-    <meta
-      name="keywords"
-      content="age calculator, how old am i, birthday calculator, exact age calculator"
-    />
-    <link rel="stylesheet" href="../css/style.css" />
-    <script src="https://unpkg.com/lucide@latest"></script>
-  </head>
-  <body>
-    <nav class="nav" aria-label="Primary">
-      <div class="nav-inner">
-        <a href="../index.html" class="nav-logo">YourSimpleTools</a>
-        <ul id="primary-navigation" class="nav-links">
-          <li><a href="../index.html#popular-tools">Tools</a></li>
-          <li><a href="../index.html#categories">Categories</a></li>
-          <li><a href="../about.html">About</a></li>
-        </ul>
-        <button type="button" class="nav-cta">Try a Tool</button>
-        <button
-          type="button"
-          class="nav-mobile-toggle"
-          aria-expanded="false"
-          aria-controls="primary-navigation"
-          aria-label="Open menu"
-        >
-          <i data-lucide="menu" aria-hidden="true"></i>
-        </button>
-      </div>
-    </nav>
+<?php include '../includes/head.php'; ?>
+<title>Age Calculator - Calculate Your Exact Age | YourSimpleTools</title>
+<meta name="description" content="Calculate your exact age in years, months, days, hours and minutes. Find days until your next birthday. Free online age calculator." />
+<?php include '../includes/nav.php'; ?>
 
     <main>
       <div class="tool-page">
@@ -199,34 +165,7 @@
       </div>
     </main>
 
-    <footer class="footer">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <a href="../index.html" class="footer-logo">YourSimpleTools</a>
-          <p class="footer-tagline">Simple, reliable tools for work and life - always free.</p>
-        </div>
-        <div>
-          <p class="footer-col-title">Explore</p>
-          <ul class="footer-links">
-            <li><a href="../index.html#popular-tools">All tools</a></li>
-            <li><a href="../index.html#categories">Categories</a></li>
-            <li><a href="../about.html">About</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="footer-col-title">Legal</p>
-          <ul class="footer-links">
-            <li><a href="../privacy.html">Privacy</a></li>
-            <li><a href="../terms.html">Terms</a></li>
-            <li><a href="../contact.html">Contact</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p class="footer-copy">&copy; 2026 YourSimpleTools. All rights reserved.</p>
-      </div>
-    </footer>
-
+<?php include '../includes/footer.php'; ?>
     <script>
       var DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       var MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -390,9 +329,7 @@
       dobInput.addEventListener('change', autoCalculate);
       asofInput.addEventListener('change', autoCalculate);
     </script>
-    <script>
-      lucide.createIcons();
-    </script>
+    <script>lucide.createIcons();</script>
     <script src="../js/main.js"></script>
   </body>
 </html>
