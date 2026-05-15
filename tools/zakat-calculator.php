@@ -791,22 +791,11 @@
         }
 
         function init() {
-          document
-            .querySelectorAll(
-              ".tool-container input[type='number'], #gold-unit, #silver-unit, #gold-price-unit, #silver-price-unit"
-            )
-            .forEach(function (el) {
-              el.addEventListener("input", calculate);
-              el.addEventListener("change", calculate);
-            });
-
-          // Explicit direct listener for cash-hand to guarantee it is never missed
-          var cashHandEl = document.getElementById("cash-hand");
-          if (cashHandEl) {
-            cashHandEl.addEventListener("input", calculate);
-            cashHandEl.addEventListener("change", calculate);
-            cashHandEl.addEventListener("keyup", calculate);
-          }
+          // Single delegated listener on the container covers every input
+          // and select inside it - no per-element loops, no duplicates
+          var container = document.querySelector(".tool-container");
+          container.addEventListener("input", calculate);
+          container.addEventListener("change", calculate);
 
           document
             .getElementById("currency-select")
