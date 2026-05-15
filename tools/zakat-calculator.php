@@ -594,6 +594,12 @@
           });
         }
 
+        var calcTimer;
+        function scheduleCalc() {
+          clearTimeout(calcTimer);
+          calcTimer = setTimeout(calculate, 50);
+        }
+
         function calculate() {
           var sym = getCurrencySymbol();
 
@@ -736,7 +742,7 @@
 
         function onCurrencyChange() {
           updateCurrencySymbols();
-          calculate();
+          scheduleCalc();
         }
 
         function resetAll() {
@@ -792,10 +798,11 @@
 
         function init() {
           // Single delegated listener on the container covers every input
-          // and select inside it - no per-element loops, no duplicates
+          // and select inside it - debounced so rapid multi-event sequences
+          // (input + change from focus shift) collapse into one calculation
           var container = document.querySelector(".tool-container");
-          container.addEventListener("input", calculate);
-          container.addEventListener("change", calculate);
+          container.addEventListener("input", scheduleCalc);
+          container.addEventListener("change", scheduleCalc);
 
           document
             .getElementById("currency-select")
