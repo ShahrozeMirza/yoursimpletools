@@ -800,6 +800,14 @@
               el.addEventListener("change", calculate);
             });
 
+          // Explicit direct listener for cash-hand to guarantee it is never missed
+          var cashHandEl = document.getElementById("cash-hand");
+          if (cashHandEl) {
+            cashHandEl.addEventListener("input", calculate);
+            cashHandEl.addEventListener("change", calculate);
+            cashHandEl.addEventListener("keyup", calculate);
+          }
+
           document
             .getElementById("currency-select")
             .addEventListener("change", onCurrencyChange);
