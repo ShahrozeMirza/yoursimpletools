@@ -726,7 +726,7 @@
             sym + fmt(goldNisaab);
 
           var statusEl = document.getElementById("nisaab-status");
-          if (silverPriceRaw === 0 || totalAssets === 0) {
+          if (silverPriceRaw === 0) {
             statusEl.innerHTML = "";
           } else if (aboveNisaab) {
             statusEl.innerHTML =
