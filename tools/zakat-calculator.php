@@ -597,7 +597,7 @@
         var calcTimer;
         function scheduleCalc() {
           clearTimeout(calcTimer);
-          calcTimer = setTimeout(calculate, 50);
+          calcTimer = setTimeout(calculate, 0);
         }
 
         function calculate() {
@@ -803,6 +803,11 @@
           var container = document.querySelector(".tool-container");
           container.addEventListener("input", scheduleCalc);
           container.addEventListener("change", scheduleCalc);
+
+          document.getElementById("cash-hand")
+            .addEventListener("input", calculate);
+          document.getElementById("cash-hand")
+            .addEventListener("change", calculate);
 
           document
             .getElementById("currency-select")
