@@ -1,4 +1,4 @@
-<?php $pageJS = '../js/solar-calculator.js'; ?>
+<?php $pageJS = '/js/solar-calculator.js'; ?>
 <?php include '../includes/head.php'; ?>
 <title>Solar System Calculator Pakistan - Panels Cost and Savings | YourSimpleTools</title>
 <meta name="description" content="Calculate how many solar panels you need in Pakistan. Estimate system size, cost, and payback period. Free solar calculator." />

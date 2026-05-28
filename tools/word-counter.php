@@ -1,4 +1,4 @@
-<?php $pageJS = '../js/word-counter.js'; ?>
+<?php $pageJS = '/js/word-counter.js'; ?>
 <?php include '../includes/head.php'; ?>
 <title>Word Counter - Free Online Word Count Tool | YourSimpleTools</title>
 <meta name="description" content="Count words, characters, sentences, paragraphs and reading time instantly. Free online word counter tool - no signup required." />

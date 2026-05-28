@@ -1,4 +1,4 @@
-<?php $pageJS = '../js/pakistan-area-converter.js'; ?>
+<?php $pageJS = '/js/pakistan-area-converter.js'; ?>
 <?php include '../includes/head.php'; ?>
 <title>Pakistan Area Converter - Marla Kanal Square Feet Gaz | YourSimpleTools</title>
 <meta name="description" content="Convert between Marla, Kanal, Square Feet, Square Yards and Acre. Supports Lahore LDA and Standard Punjab standards. Free Pakistan property calculator." />

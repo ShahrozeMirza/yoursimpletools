@@ -1,4 +1,4 @@
-<?php $pageJS = '../js/construction-material-estimator.js'; ?>
+<?php $pageJS = '/js/construction-material-estimator.js'; ?>
 <?php include '../includes/head.php'; ?>
 <title>Construction Material Estimator - Bricks Cement Sand Calculator | YourSimpleTools</title>
 <meta name="description" content="Calculate how many bricks, cement bags and sand you need for your wall. Free construction material estimator for Pakistan." />

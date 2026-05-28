@@ -1,4 +1,4 @@
-<?php $pageJS = '../js/character-counter.js'; ?>
+<?php $pageJS = '/js/character-counter.js'; ?>
 <?php include '../includes/head.php'; ?>
 <title>Character Counter - Free Online Character Count Tool | YourSimpleTools</title>
 <meta name="description" content="Count characters, letters, spaces, punctuation and more instantly. Free online character counter - no signup required." />

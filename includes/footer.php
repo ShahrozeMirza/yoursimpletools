@@ -27,3 +27,7 @@
       <p class="footer-copy">&copy; 2026 YourSimpleTools. All rights reserved.</p>
     </div>
   </footer>
+<?php if (!empty($pageJS)): ?>
+<script src="<?php echo $pageJS; ?>"></script>
+<?php endif; ?>
+<script src="/js/main.js"></script>

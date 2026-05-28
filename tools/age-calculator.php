@@ -1,4 +1,4 @@
-<?php $pageJS = '../js/age-calculator.js'; ?>
+<?php $pageJS = '/js/age-calculator.js'; ?>
 <?php include '../includes/head.php'; ?>
 <title>Age Calculator - Calculate Your Exact Age | YourSimpleTools</title>
 <meta name="description" content="Calculate your exact age in years, months, days, hours and minutes. Find days until your next birthday. Free online age calculator." />

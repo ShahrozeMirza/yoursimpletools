@@ -1,4 +1,4 @@
-<?php $pageJS = '../js/password-generator.js'; ?>
+<?php $pageJS = '/js/password-generator.js'; ?>
 <?php include '../includes/head.php'; ?>
 <title>Password Generator - Free Strong Password Generator | YourSimpleTools</title>
 <meta name="description" content="Generate strong, secure, random passwords instantly. Customizable length and character sets. 100% free, no signup required." />
