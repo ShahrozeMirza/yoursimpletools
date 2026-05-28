@@ -995,7 +995,7 @@ textarea {
    ============================================= */
 
 .nisaab-card {
-  background: var(--color-bg);
+  background: var(--color-card);
   border: 0.0625rem solid var(--color-border);
   border-left: 0.25rem solid var(--color-accent);
   border-radius: var(--border-radius-card);
