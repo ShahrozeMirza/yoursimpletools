@@ -13,3 +13,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/style.css" />
   <script src="https://unpkg.com/lucide@latest"></script>
+<?php if (!empty($pageJS)): ?>
+<script src="<?php echo $pageJS; ?>"></script>
+<?php endif; ?>
