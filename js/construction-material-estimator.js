@@ -1,203 +1,206 @@
-(function () {
-  var openingCount = 0;
+document.addEventListener('DOMContentLoaded', function() {
+  (function () {
+    var openingCount = 0;
 
-  function addOpening() {
-    openingCount++;
-    var id = openingCount;
-    var list = document.getElementById('openings-list');
-    var row = document.createElement('div');
-    row.className = 'opening-row nisaab-card mt-8 mb-8';
-    row.setAttribute('data-id', id);
-    row.innerHTML =
-      '<div class="form-grid-2">' +
-        '<div class="form-group">' +
-          '<label class="form-label" for="opening-type-' + id + '">Type</label>' +
-          '<select id="opening-type-' + id + '" class="form-select opening-type">' +
-            '<option value="door">Door</option>' +
-            '<option value="window">Window</option>' +
-          '</select>' +
+    function addOpening() {
+      openingCount++;
+      var id = openingCount;
+      var list = document.getElementById('openings-list');
+      var row = document.createElement('div');
+      row.className = 'opening-row nisaab-card mt-8 mb-8';
+      row.setAttribute('data-id', id);
+      row.innerHTML =
+        '<div class="form-grid-2">' +
+          '<div class="form-group">' +
+            '<label class="form-label" for="opening-type-' + id + '">Type</label>' +
+            '<select id="opening-type-' + id + '" class="form-select opening-type">' +
+              '<option value="door">Door</option>' +
+              '<option value="window">Window</option>' +
+            '</select>' +
+          '</div>' +
+          '<div></div>' +
         '</div>' +
-        '<div></div>' +
-      '</div>' +
-      '<div class="form-grid-2">' +
-        '<div class="form-group">' +
-          '<label class="form-label" for="opening-width-' + id + '">Width (feet)</label>' +
-          '<input type="number" id="opening-width-' + id + '" class="form-input opening-width" placeholder="e.g. 3" min="0" step="any" />' +
+        '<div class="form-grid-2">' +
+          '<div class="form-group">' +
+            '<label class="form-label" for="opening-width-' + id + '">Width (feet)</label>' +
+            '<input type="number" id="opening-width-' + id + '" class="form-input opening-width" placeholder="e.g. 3" min="0" step="any" />' +
+          '</div>' +
+          '<div class="form-group">' +
+            '<label class="form-label" for="opening-height-' + id + '">Height (feet)</label>' +
+            '<input type="number" id="opening-height-' + id + '" class="form-input opening-height" placeholder="e.g. 7" min="0" step="any" />' +
+          '</div>' +
         '</div>' +
-        '<div class="form-group">' +
-          '<label class="form-label" for="opening-height-' + id + '">Height (feet)</label>' +
-          '<input type="number" id="opening-height-' + id + '" class="form-input opening-height" placeholder="e.g. 7" min="0" step="any" />' +
-        '</div>' +
-      '</div>' +
-      '<button type="button" class="btn-reset remove-opening-btn" aria-label="Remove opening">' +
-        '<i data-lucide="x" aria-hidden="true"></i>' +
-        ' Remove' +
-      '</button>';
-    row.querySelector('.remove-opening-btn').addEventListener('click', function () {
-      row.remove();
-    });
-    list.appendChild(row);
-    lucide.createIcons();
-  }
-
-  function getVal(id) {
-    var v = parseFloat(document.getElementById(id).value);
-    return isNaN(v) || v < 0 ? 0 : v;
-  }
-
-  function toMeters(value, unit) {
-    return unit === 'feet' ? value / 3.28084 : value;
-  }
-
-  function calculate() {
-    var length = getVal('wall-length');
-    var height = getVal('wall-height');
-
-    if (length <= 0 || height <= 0) {
-      alert('Please enter valid wall length and height.');
-      return;
+        '<button type="button" class="btn-reset remove-opening-btn" aria-label="Remove opening">' +
+          '<i data-lucide="x" aria-hidden="true"></i>' +
+          ' Remove' +
+        '</button>';
+      row.querySelector('.remove-opening-btn').addEventListener('click', function () {
+        row.remove();
+      });
+      list.appendChild(row);
+      lucide.createIcons();
     }
 
-    var numWalls = Math.max(1, parseInt(document.getElementById('num-walls').value) || 1);
-    var lengthUnit = document.getElementById('length-unit').value;
-    var heightUnit = document.getElementById('height-unit').value;
+    function getVal(id) {
+      var v = parseFloat(document.getElementById(id).value);
+      return isNaN(v) || v < 0 ? 0 : v;
+    }
 
-    var lengthM = toMeters(length, lengthUnit);
-    var heightM = toMeters(height, heightUnit);
+    function toMeters(value, unit) {
+      return unit === 'feet' ? value / 3.28084 : value;
+    }
 
-    var wallType = document.querySelector('input[name="wall-type"]:checked').value;
-    var thickness = wallType === '9inch' ? 0.2286 : 0.1143;
+    function calculate() {
+      var length = getVal('wall-length');
+      var height = getVal('wall-height');
 
-    var wastage = parseFloat(document.querySelector('input[name="wastage"]:checked').value);
-
-    var wallAreaM2 = lengthM * heightM;
-    var wallVolumeM3 = wallAreaM2 * thickness;
-
-    var openingAreaM2 = 0;
-    var openingAreaSqFt = 0;
-    document.querySelectorAll('.opening-row').forEach(function (row) {
-      var wFt = parseFloat(row.querySelector('.opening-width').value) || 0;
-      var hFt = parseFloat(row.querySelector('.opening-height').value) || 0;
-      if (wFt > 0 && hFt > 0) {
-        var wM = wFt / 3.28084;
-        var hM = hFt / 3.28084;
-        openingAreaM2 += wM * hM;
-        openingAreaSqFt += wFt * hFt;
+      if (length <= 0 || height <= 0) {
+        alert('Please enter valid wall length and height.');
+        return;
       }
-    });
 
-    var netAreaM2PerWall = Math.max(0, wallAreaM2 - openingAreaM2);
-    var netVolumePerWall = netAreaM2PerWall * thickness;
-    var totalNetVolumeM3 = netVolumePerWall * numWalls;
+      var numWalls = Math.max(1, parseInt(document.getElementById('num-walls').value) || 1);
+      var lengthUnit = document.getElementById('length-unit').value;
+      var heightUnit = document.getElementById('height-unit').value;
 
-    var bricksBeforeWastage = totalNetVolumeM3 * 500;
-    var wastageCount = Math.ceil(bricksBeforeWastage * wastage);
-    var bricksWithWastage = Math.ceil(bricksBeforeWastage * (1 + wastage));
+      var lengthM = toMeters(length, lengthUnit);
+      var heightM = toMeters(height, heightUnit);
 
-    var cementBags = Math.ceil(totalNetVolumeM3 * 1.26);
-    var sandCubicMeters = totalNetVolumeM3 * 0.263;
-    var sandCubicFeet = sandCubicMeters * 35.3147;
+      var wallType = document.querySelector('input[name="wall-type"]:checked').value;
+      var thickness = wallType === '9inch' ? 0.2286 : 0.1143;
 
-    document.getElementById('result-bricks').textContent =
-      bricksWithWastage.toLocaleString();
-    document.getElementById('result-cement').textContent =
-      cementBags.toLocaleString();
-    document.getElementById('result-sand').textContent =
-      sandCubicFeet.toFixed(2);
+      var wastage = parseFloat(document.querySelector('input[name="wastage"]:checked').value);
 
-    var wallAreaSqFt = wallAreaM2 * 10.7639;
-    var totalWallAreaSqFt = wallAreaSqFt * numWalls;
-    var totalDeductionsSqFt = openingAreaSqFt * numWalls;
-    var totalNetAreaSqFt = totalWallAreaSqFt - totalDeductionsSqFt;
-    var totalNetVolumeCubicFt = totalNetVolumeM3 * 35.3147;
+      var wallAreaM2 = lengthM * heightM;
+      var wallVolumeM3 = wallAreaM2 * thickness;
 
-    document.getElementById('bd-wall-area').textContent =
-      totalWallAreaSqFt.toFixed(2) + ' sq ft';
-    document.getElementById('bd-deductions').textContent =
-      totalDeductionsSqFt.toFixed(2) + ' sq ft';
-    document.getElementById('bd-net-area').textContent =
-      totalNetAreaSqFt.toFixed(2) + ' sq ft';
-    document.getElementById('bd-wall-volume').textContent =
-      totalNetVolumeCubicFt.toFixed(2) + ' cubic feet / ' +
-      totalNetVolumeM3.toFixed(4) + ' cubic meters';
-    document.getElementById('bd-bricks-before').textContent =
-      Math.round(bricksBeforeWastage).toLocaleString() + ' bricks';
-    document.getElementById('bd-wastage').textContent =
-      (wastage * 100).toFixed(0) + '% = ' + wastageCount.toLocaleString() + ' bricks';
-    document.getElementById('bd-total-bricks').textContent =
-      bricksWithWastage.toLocaleString() + ' bricks';
-    document.getElementById('bd-cement').textContent =
-      cementBags.toLocaleString() + ' bags';
-    document.getElementById('bd-sand').textContent =
-      sandCubicFeet.toFixed(2) + ' cubic feet';
+      var openingAreaM2 = 0;
+      var openingAreaSqFt = 0;
+      document.querySelectorAll('.opening-row').forEach(function (row) {
+        var wFt = parseFloat(row.querySelector('.opening-width').value) || 0;
+        var hFt = parseFloat(row.querySelector('.opening-height').value) || 0;
+        if (wFt > 0 && hFt > 0) {
+          var wM = wFt / 3.28084;
+          var hM = hFt / 3.28084;
+          openingAreaM2 += wM * hM;
+          openingAreaSqFt += wFt * hFt;
+        }
+      });
 
-    document.getElementById('results-section').classList.remove('hidden');
-    document.getElementById('results-section').scrollIntoView({
-      behavior: 'smooth',
-      block: 'nearest'
-    });
-  }
+      var netAreaM2PerWall = Math.max(0, wallAreaM2 - openingAreaM2);
+      var netVolumePerWall = netAreaM2PerWall * thickness;
+      var totalNetVolumeM3 = netVolumePerWall * numWalls;
 
-  function toggleBreakdown() {
-    var content = document.getElementById('breakdown-content');
-    var btn = document.getElementById('breakdown-toggle');
-    var isHidden = content.classList.contains('hidden');
-    if (isHidden) {
-      content.classList.remove('hidden');
-      btn.setAttribute('aria-expanded', 'true');
-      btn.innerHTML =
-        '<i data-lucide="chevron-up" aria-hidden="true"></i> Hide Calculation Breakdown';
-    } else {
-      content.classList.add('hidden');
-      btn.setAttribute('aria-expanded', 'false');
-      btn.innerHTML =
-        '<i data-lucide="chevron-down" aria-hidden="true"></i> Show Calculation Breakdown';
+      var bricksBeforeWastage = totalNetVolumeM3 * 500;
+      var wastageCount = Math.ceil(bricksBeforeWastage * wastage);
+      var bricksWithWastage = Math.ceil(bricksBeforeWastage * (1 + wastage));
+
+      var cementBags = Math.ceil(totalNetVolumeM3 * 1.26);
+      var sandCubicMeters = totalNetVolumeM3 * 0.263;
+      var sandCubicFeet = sandCubicMeters * 35.3147;
+
+      document.getElementById('result-bricks').textContent =
+        bricksWithWastage.toLocaleString();
+      document.getElementById('result-cement').textContent =
+        cementBags.toLocaleString();
+      document.getElementById('result-sand').textContent =
+        sandCubicFeet.toFixed(2);
+
+      var wallAreaSqFt = wallAreaM2 * 10.7639;
+      var totalWallAreaSqFt = wallAreaSqFt * numWalls;
+      var totalDeductionsSqFt = openingAreaSqFt * numWalls;
+      var totalNetAreaSqFt = totalWallAreaSqFt - totalDeductionsSqFt;
+      var totalNetVolumeCubicFt = totalNetVolumeM3 * 35.3147;
+
+      document.getElementById('bd-wall-area').textContent =
+        totalWallAreaSqFt.toFixed(2) + ' sq ft';
+      document.getElementById('bd-deductions').textContent =
+        totalDeductionsSqFt.toFixed(2) + ' sq ft';
+      document.getElementById('bd-net-area').textContent =
+        totalNetAreaSqFt.toFixed(2) + ' sq ft';
+      document.getElementById('bd-wall-volume').textContent =
+        totalNetVolumeCubicFt.toFixed(2) + ' cubic feet / ' +
+        totalNetVolumeM3.toFixed(4) + ' cubic meters';
+      document.getElementById('bd-bricks-before').textContent =
+        Math.round(bricksBeforeWastage).toLocaleString() + ' bricks';
+      document.getElementById('bd-wastage').textContent =
+        (wastage * 100).toFixed(0) + '% = ' + wastageCount.toLocaleString() + ' bricks';
+      document.getElementById('bd-total-bricks').textContent =
+        bricksWithWastage.toLocaleString() + ' bricks';
+      document.getElementById('bd-cement').textContent =
+        cementBags.toLocaleString() + ' bags';
+      document.getElementById('bd-sand').textContent =
+        sandCubicFeet.toFixed(2) + ' cubic feet';
+
+      document.getElementById('results-section').classList.remove('hidden');
+      document.getElementById('results-section').scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+      });
     }
-    lucide.createIcons();
-  }
 
-  function resetCalculator() {
-    document.getElementById('wall-length').value = '';
-    document.getElementById('wall-height').value = '';
-    document.getElementById('num-walls').value = '1';
-    document.getElementById('length-unit').value = 'feet';
-    document.getElementById('height-unit').value = 'feet';
+    function toggleBreakdown() {
+      var content = document.getElementById('breakdown-content');
+      var btn = document.getElementById('breakdown-toggle');
+      var isHidden = content.classList.contains('hidden');
+      if (isHidden) {
+        content.classList.remove('hidden');
+        btn.setAttribute('aria-expanded', 'true');
+        btn.innerHTML =
+          '<i data-lucide="chevron-up" aria-hidden="true"></i> Hide Calculation Breakdown';
+      } else {
+        content.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.innerHTML =
+          '<i data-lucide="chevron-down" aria-hidden="true"></i> Show Calculation Breakdown';
+      }
+      lucide.createIcons();
+    }
 
-    document.querySelector('input[name="wall-type"][value="9inch"]').checked = true;
-    document.querySelector('input[name="wastage"][value="0.10"]').checked = true;
+    function resetCalculator() {
+      document.getElementById('wall-length').value = '';
+      document.getElementById('wall-height').value = '';
+      document.getElementById('num-walls').value = '1';
+      document.getElementById('length-unit').value = 'feet';
+      document.getElementById('height-unit').value = 'feet';
 
-    document.getElementById('openings-list').innerHTML = '';
-    openingCount = 0;
+      document.querySelector('input[name="wall-type"][value="9inch"]').checked = true;
+      document.querySelector('input[name="wastage"][value="0.10"]').checked = true;
 
-    document.getElementById('results-section').classList.add('hidden');
+      document.getElementById('openings-list').innerHTML = '';
+      openingCount = 0;
 
-    var breakdownContent = document.getElementById('breakdown-content');
-    breakdownContent.classList.add('hidden');
-    var breakdownToggle = document.getElementById('breakdown-toggle');
-    breakdownToggle.setAttribute('aria-expanded', 'false');
-    breakdownToggle.innerHTML =
-      '<i data-lucide="chevron-down" aria-hidden="true"></i> Show Calculation Breakdown';
-    lucide.createIcons();
-  }
+      document.getElementById('results-section').classList.add('hidden');
 
-  function init() {
-    document
-      .getElementById('add-opening-btn')
-      .addEventListener('click', addOpening);
-    document
-      .getElementById('calculate-btn')
-      .addEventListener('click', calculate);
-    document
-      .getElementById('breakdown-toggle')
-      .addEventListener('click', toggleBreakdown);
-    document
-      .getElementById('reset-btn')
-      .addEventListener('click', resetCalculator);
-  }
+      var breakdownContent = document.getElementById('breakdown-content');
+      breakdownContent.classList.add('hidden');
+      var breakdownToggle = document.getElementById('breakdown-toggle');
+      breakdownToggle.setAttribute('aria-expanded', 'false');
+      breakdownToggle.innerHTML =
+        '<i data-lucide="chevron-down" aria-hidden="true"></i> Show Calculation Breakdown';
+      lucide.createIcons();
+    }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-})();
+    function init() {
+      document
+        .getElementById('add-opening-btn')
+        .addEventListener('click', addOpening);
+      document
+        .getElementById('calculate-btn')
+        .addEventListener('click', calculate);
+      document
+        .getElementById('breakdown-toggle')
+        .addEventListener('click', toggleBreakdown);
+      document
+        .getElementById('reset-btn')
+        .addEventListener('click', resetCalculator);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+
+});
