@@ -2063,6 +2063,41 @@ textarea {
   }
 }
 
+/* =============================================
+   Lorem Ipsum Generator
+   ============================================= */
+
+.lorem-output {
+  min-height: 18.75rem;
+}
+
+.lorem-uses-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lorem-uses-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-snug);
+}
+
+.lorem-uses-item svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  stroke: var(--color-accent);
+  fill: none;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
 @media (max-width: 48rem) {
   .nav-links {
     display: none;
