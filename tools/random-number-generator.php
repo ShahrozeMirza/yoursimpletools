@@ -4,6 +4,9 @@
 <meta name="description" content="Generate random numbers instantly. Set your own min and max range. Generate single or multiple random numbers. Free online random number generator.">
 <meta name="keywords" content="random number generator, random number, random number picker, random number between, lucky number generator">
 <style>
+  .notice-box.hidden {
+    display: none;
+  }
   #single-result {
     background: var(--color-accent-light);
     border-radius: var(--border-radius-card);
