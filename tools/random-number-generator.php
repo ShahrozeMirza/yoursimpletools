@@ -170,7 +170,7 @@
               <span class="rng-empty-state">No numbers generated yet</span>
             </div>
 
-          </div>
+          </div> 
 
           <!-- Section 2: Multiple Random Numbers -->
           <div class="tool-container mt-24">
