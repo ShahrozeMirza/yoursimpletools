@@ -3,6 +3,63 @@
 <title>Random Number Generator - Free Online Tool | YourSimpleTools</title>
 <meta name="description" content="Generate random numbers instantly. Set your own min and max range. Generate single or multiple random numbers. Free online random number generator.">
 <meta name="keywords" content="random number generator, random number, random number picker, random number between, lucky number generator">
+<style>
+  #single-result {
+    background: var(--color-accent-light);
+    border-radius: var(--border-radius-card);
+    margin: 1rem 0;
+    padding: 2rem 1rem;
+  }
+  .calc-section-title {
+    margin-bottom: 1.25rem;
+  }
+  .rng-chip {
+    padding: 0.25rem 0.75rem;
+  }
+  .rng-multi-output {
+    background: none;
+    border: none;
+    padding: 0.5rem 0;
+  }
+  .rng-multi-output.is-placeholder {
+    background: var(--color-bg);
+    border: 0.0625rem solid var(--color-border);
+    border-radius: var(--border-radius-btn);
+    padding: 1rem;
+    font-style: italic;
+  }
+  .rng-multi-output:not(.is-placeholder) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    min-height: 3rem;
+  }
+  .rng-multi-chip {
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-bg);
+    border: 0.0625rem solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 0.375rem 0.875rem;
+    font-size: var(--font-size-small);
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+  .rng-quick-card {
+    background: var(--color-card);
+    padding: 1.5rem;
+  }
+  .rng-quick-result {
+    font-size: 3rem;
+    min-height: 4rem;
+    padding: 0.75rem 0;
+  }
+  .rng-quick-card .btn-primary {
+    align-self: center;
+    width: auto;
+    padding: 0.625rem 1.5rem;
+  }
+</style>
 <?php include '../includes/nav.php'; ?>
 
     <main>
@@ -113,7 +170,7 @@
           </div>
 
           <!-- Section 2: Multiple Random Numbers -->
-          <div class="tool-container mt-20">
+          <div class="tool-container mt-24">
 
             <h2 class="calc-section-title">
               <i data-lucide="list" aria-hidden="true"></i>
@@ -212,7 +269,7 @@
           </div>
 
           <!-- Section 3: Quick Tools -->
-          <div class="tool-container mt-20">
+          <div class="tool-container mt-24">
 
             <h2 class="calc-section-title">
               <i data-lucide="zap" aria-hidden="true"></i>
@@ -233,7 +290,7 @@
                 >-</div>
                 <button
                   type="button"
-                  class="btn-primary w-full"
+                  class="btn-primary"
                   id="coin-flip-btn"
                   aria-label="Flip a coin"
                 >Flip Coin</button>
@@ -263,7 +320,7 @@
                 </div>
                 <button
                   type="button"
-                  class="btn-primary w-full"
+                  class="btn-primary"
                   id="dice-roll-btn"
                   aria-label="Roll the dice"
                 >Roll Dice</button>
@@ -281,7 +338,7 @@
                 >-</div>
                 <button
                   type="button"
-                  class="btn-primary w-full"
+                  class="btn-primary"
                   id="lucky-btn"
                   aria-label="Get your lucky number"
                 >Get Lucky Number</button>
@@ -291,7 +348,7 @@
 
           </div>
 
-          <div class="tool-disclaimer mt-20">
+          <div class="tool-disclaimer mt-24">
             <p>Numbers are generated using crypto.getRandomValues() which provides strong randomness suitable for most everyday uses. For cryptographic or security-critical purposes, use a dedicated security tool.</p>
           </div>
 

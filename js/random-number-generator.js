@@ -169,8 +169,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (resultEl) {
-      resultEl.textContent = numbers.join(', ');
+      resultEl.dataset.numbers = numbers.join(', ');
       resultEl.classList.remove('is-placeholder');
+      var chips = numbers.map(function (n) {
+        return '<span class="rng-multi-chip">' + n + '</span>';
+      });
+      resultEl.innerHTML = chips.join('');
     }
 
     if (countEl) {
@@ -213,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function copyMultiResult() {
     var resultEl = document.getElementById('multi-result');
     if (!resultEl || resultEl.classList.contains('is-placeholder')) return;
-    var text = resultEl.textContent.trim();
+    var text = resultEl.dataset.numbers || resultEl.textContent.trim();
     if (!text || text === 'Numbers will appear here') return;
 
     copyWithFeedback('multi-copy-btn', 'Copy All Numbers', function () {
