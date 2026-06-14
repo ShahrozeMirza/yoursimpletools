@@ -3,6 +3,60 @@
 <title>JSON Formatter - Format and Validate JSON Online | YourSimpleTools</title>
 <meta name="description" content="Format, beautify, minify and validate JSON instantly. Free online JSON formatter and validator tool - no signup required.">
 <meta name="keywords" content="json formatter, json validator, json beautifier, json minifier, format json online, json pretty print">
+<style>
+  .json-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .json-actions .btn-primary,
+  .json-actions .btn-secondary {
+    padding: 8px 16px;
+    width: auto;
+  }
+  .jf-options {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    background: var(--color-bg);
+    border: 0.0625rem solid var(--color-border);
+    border-radius: var(--border-radius-btn);
+  }
+  .jf-options .form-label {
+    margin-bottom: 0;
+    white-space: nowrap;
+  }
+  .jf-options .form-select {
+    width: auto;
+    min-width: 8rem;
+  }
+  .jf-sort-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .jf-textarea-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .jf-textarea-grid .form-group {
+    margin-bottom: 0;
+  }
+  .jf-stats {
+    margin-top: 16px;
+  }
+  @media (max-width: 48rem) {
+    .jf-textarea-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
 <?php include '../includes/nav.php'; ?>
 
     <main>
@@ -58,7 +112,7 @@
               </button>
             </div>
 
-            <div class="json-options">
+            <div class="jf-options">
               <div class="indent-select-group">
                 <label class="form-label" for="indent-size">Indent Size</label>
                 <select class="form-select" id="indent-size">
@@ -67,7 +121,7 @@
                   <option value="tab">Tab</option>
                 </select>
               </div>
-              <div class="json-sort-toggle">
+              <div class="jf-sort-toggle">
                 <label class="toggle-label" for="sort-keys">Sort keys alphabetically</label>
                 <label class="toggle-switch">
                   <input type="checkbox" id="sort-keys" />
@@ -76,31 +130,32 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label class="form-label" for="json-input">Input JSON</label>
-              <textarea
-                class="form-textarea json-textarea"
-                id="json-input"
-                placeholder="Paste your JSON here..."
-                aria-label="Input JSON"
-              ></textarea>
-              <p class="json-status-bar" id="input-status">Characters: 0 | Lines: 1</p>
-            </div>
-
             <div id="validation-status" class="hidden" aria-live="polite"></div>
 
-            <div class="form-group mt-16">
-              <label class="form-label" for="json-output">Formatted Output</label>
-              <textarea
-                class="form-textarea json-textarea"
-                id="json-output"
-                readonly
-                aria-label="Formatted JSON output"
-              ></textarea>
-              <p class="json-status-bar" id="output-stats">Characters: 0 | Lines: 0 | Size: 0.00 KB</p>
+            <div class="jf-textarea-grid">
+              <div class="form-group">
+                <label class="form-label" for="json-input">Input JSON</label>
+                <textarea
+                  class="form-textarea json-textarea"
+                  id="json-input"
+                  placeholder="Paste your JSON here..."
+                  aria-label="Input JSON"
+                ></textarea>
+                <p class="json-status-bar" id="input-status">Characters: 0 | Lines: 1</p>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="json-output">Formatted Output</label>
+                <textarea
+                  class="form-textarea json-textarea"
+                  id="json-output"
+                  readonly
+                  aria-label="Formatted JSON output"
+                ></textarea>
+                <p class="json-status-bar" id="output-stats">Characters: 0 | Lines: 0 | Size: 0.00 KB</p>
+              </div>
             </div>
 
-            <div id="json-stats" class="results-section hidden">
+            <div id="json-stats" class="results-section jf-stats hidden">
               <h2 class="results-section-title">
                 <i data-lucide="bar-chart-2" aria-hidden="true"></i>
                 JSON Statistics
@@ -155,7 +210,6 @@
 
         </div>
       </div>
-      
     </main>
 
 <?php include '../includes/footer.php'; ?>
